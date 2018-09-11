@@ -25,6 +25,12 @@ public class User {
 	@NotEmpty
 	private String fullName;
 
+	private String firstName;
+
+	private String lastName;
+
+	private String pictureUrl;
+
 	@Column(unique = true)
 	@NotEmpty
 	@Email
@@ -47,6 +53,30 @@ public class User {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 
 	public String getEmail() {
