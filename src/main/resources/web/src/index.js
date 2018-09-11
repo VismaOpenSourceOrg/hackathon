@@ -11,6 +11,42 @@ const Header = ({email, pictureUrl}) => (
 	</div>
 )
 
+
+class UserOverview extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			users: [],
+		};
+	}
+
+	componentDidMount() {
+		fetch('/user')
+			.then(response => response.json())
+			.then(data => this.setState({ users: data }));
+	}
+
+	render() {
+		const { users } = this.state;
+		return (
+			<div className="users">
+				<span className="users--header">Registered users</span>
+				<div className="users--list">
+				{ users.map((user) => <User key={user.uuid} user={user}/>) }
+				</div>
+			</div>
+		)
+	}
+}
+
+const User = ({user}) => (
+	<div className="users--entry">
+		<img className="users--entry--picture" src={user.pictureUrl} />
+		<span className="users--entry--name" title={user.email}>{ user.fullName }</span>
+	</div>
+)
+
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
@@ -31,6 +67,8 @@ class Index extends React.Component {
 		return (
 			<div>
 				<Header email={auth.email} pictureUrl={auth.pictureUrl}/>
+
+				<UserOverview/>
 			</div>
 		)
 	}

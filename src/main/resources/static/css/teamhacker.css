@@ -26,3 +26,38 @@
 .header--auth--email {
     font-size: 17px
 }
+
+.users--header {
+    font-size: 1.7em;
+    font-family: sans-serif;
+}
+
+.users {
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #c3e2e3;
+    color: #003366; 
+}
+
+.users--list {
+    border-top: 1px solid #003366cf;
+}
+
+.users--entry {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.users--entry--name {
+    font-size: 1.2em;
+    font-family: cursive;
+}
+
+.users--entry--picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    margin-right: 15px;
+}
