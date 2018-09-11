@@ -1,5 +1,7 @@
 package no.tripletex.teamhacker.service;
 
+import no.tripletex.teamhacker.entity.User;
+import no.tripletex.teamhacker.repository.UserRepository;
 import no.tripletex.teamhacker.web.GoogleOAuthLoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -7,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -15,13 +19,30 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
 
 	@Autowired
 	private OAuth2AuthorizedClientService authorizedClientService;
 
-	public GoogleOAuthLoginInfo getOAuthLoginInfo(OAuth2AuthenticationToken authentication) {
+	@Autowired
+	private UserRepository userRepository;
+
+
+
+	private Optional<OAuth2AuthenticationToken> getAuthorizationToken() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) return Optional.empty();
+		return Optional.of((OAuth2AuthenticationToken) auth);
+	}
+
+	public Optional<GoogleOAuthLoginInfo> getLoggedInOAuthInfo() {
+		return getAuthorizationToken().map(this::getOAuthLoginInfo);
+	}
+
+	private GoogleOAuthLoginInfo getOAuthLoginInfo(OAuth2AuthenticationToken authentication) {
 		OAuth2AuthorizedClient client = authorizedClientService
 				.loadAuthorizedClient(
 						authentication.getAuthorizedClientRegistrationId(),
@@ -43,6 +64,13 @@ public class AuthService {
 				.exchange(userInfoEndpointUri, HttpMethod.GET, entity, GoogleOAuthLoginInfo.class);
 		GoogleOAuthLoginInfo userAttributes = response.getBody();
 		return userAttributes;
+	}
+
+	public Optional<User> getLoggedInUser() {
+		return getAuthorizationToken()
+				.map((auth) -> (String) auth.getPrincipal().getAttributes().get("email"))
+				.map(email -> userRepository.findUserByEmail(email)
+						.orElseThrow(() -> new RuntimeException("Could not find user in database")));
 	}
 
 

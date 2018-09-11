@@ -24,4 +24,8 @@ public class UserService {
 		user.setLastName(authInfo.getFamilyName());
 		return userRepository.save(user);
 	}
+
+	public User getOrCreateUser(GoogleOAuthLoginInfo authInfo) {
+		return userRepository.findUserByEmail(authInfo.getEmail()).orElseGet(() -> createUser(authInfo));
+	}
 }

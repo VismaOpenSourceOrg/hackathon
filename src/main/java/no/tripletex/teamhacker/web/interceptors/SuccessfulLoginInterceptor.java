@@ -1,6 +1,7 @@
 package no.tripletex.teamhacker.web.interceptors;
 
 import no.tripletex.teamhacker.entity.User;
+import no.tripletex.teamhacker.repository.UserRepository;
 import no.tripletex.teamhacker.service.AuthService;
 import no.tripletex.teamhacker.service.UserService;
 import no.tripletex.teamhacker.web.GoogleOAuthLoginInfo;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Optional;
 
 @Configuration
 public class SuccessfulLoginInterceptor implements HandlerInterceptor {
@@ -36,19 +38,16 @@ public class SuccessfulLoginInterceptor implements HandlerInterceptor {
 	@Autowired
 	private UserService userService;
 
-
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			GoogleOAuthLoginInfo loginInfo = authService.getOAuthLoginInfo((OAuth2AuthenticationToken) auth);
-			User user = userService.createUser(loginInfo);
-			System.out.println("Created user");
+		Optional<GoogleOAuthLoginInfo> loginInfo = authService.getLoggedInOAuthInfo();
 
-			response.sendRedirect("/index.html");
-			return false;
-		}
+		if (!loginInfo.isPresent()) return true;
 
-		return true;
+		User user = loginInfo.map(userService::getOrCreateUser)
+				.orElseThrow(() -> new SecurityException("Could not get logged in user"));
+
+		response.sendRedirect("/index.html");
+		return false;
 	}
 }
