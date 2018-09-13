@@ -1,6 +1,7 @@
 // @flow
 
 import React from "react";
+import moment from "moment";
 
 import type { User } from "./user";
 
@@ -100,8 +101,17 @@ const IdeaEntry = (props: { idea: Idea }) => (
       src={props.idea.createdBy.pictureUrl}
       title={props.idea.createdBy.fullName}
     />
-    <span className="ideas--entry--title">{props.idea.title}</span>
-    <span className="ideas--entry--description">{props.idea.description}</span>
+    <div className="ideas--entry--content">
+      <div className="ideas--entry--header">
+        <span className="ideas--entry--title">{props.idea.title}</span>
+        <span className="ideas--entry--timestamp">
+          {moment(props.idea.created).fromNow()}
+        </span>
+      </div>
+      <span className="ideas--entry--description">
+        {props.idea.description}
+      </span>
+    </div>
   </div>
 );
 

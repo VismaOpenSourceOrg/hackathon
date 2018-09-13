@@ -74,13 +74,24 @@
 
     font-family: Georgia;
 }
-
+.ideas--entry--content {
+    display: flex;
+    flex-direction: column;
+}
+.ideas--entry--header {
+    display: flex;
+    align-content: center;
+}
 .ideas--entry--title {
     font-weight: bold;
     font-size: 20px;
+    flex-grow: 1;
+}
+.ideas--entry--timestamp {
+    color: #003366b8;
 }
 .ideas--entry--description {
-    margin-left: 20px;
+    margin-top: 15px;
 }
 
 .ideas--creator {
