@@ -22,7 +22,7 @@ class UserOverview extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch('/user')
+		fetch('/user', {credentials: 'same-origin'})
 			.then(response => response.json())
 			.then(data => this.setState({ users: data }));
 	}
@@ -57,7 +57,7 @@ class Index extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch('/auth')
+		fetch('/auth', {credentials: 'same-origin'})
 			.then(response => response.json())
 			.then(data => this.setState({ auth: data }));
 	}
