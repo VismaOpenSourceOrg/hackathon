@@ -107,8 +107,10 @@
     font-size: 18px;
     margin-top: 15px;
 }
-ideas--creator--description {
-    font-size: 17px;
+.ideas--creator--description {
+    font-size: 15px;
+    resize: vertical;
+    height: 150px;
 }
 
 
