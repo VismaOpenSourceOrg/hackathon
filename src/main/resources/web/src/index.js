@@ -11,34 +11,14 @@ const Header = ({email, pictureUrl}) => (
 	</div>
 )
 
-
-class UserOverview extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			users: [],
-		};
-	}
-
-	componentDidMount() {
-		fetch('/user', {credentials: 'same-origin'})
-			.then(response => response.json())
-			.then(data => this.setState({ users: data }));
-	}
-
-	render() {
-		const { users } = this.state;
-		return (
-			<div className="users">
-				<span className="users--header">Registered users</span>
-				<div className="users--list">
-				{ users.map((user) => <User key={user.uuid} user={user}/>) }
-				</div>
-			</div>
-		)
-	}
-}
+const UserOverview = ({users}) => (
+	<div className="users">
+		<span className="users--header">Registered users</span>
+		<div className="users--list">
+			{ users.map((user) => <User key={user.uuid} user={user}/>) }
+		</div>
+	</div>
+)
 
 const User = ({user}) => (
 	<div className="users--entry">
@@ -53,26 +33,30 @@ class Index extends React.Component {
 
 		this.state = {
 			auth: {},
+			users: []
 		};
 	}
 
 	componentDidMount() {
 		fetch('/auth', {credentials: 'same-origin'})
 			.then(response => response.json())
-			.then(data => this.setState({ auth: data }));
+			.then(data => this.setState({ ...this.state, auth: data }));
+
+		fetch('/user', {credentials: 'same-origin'})
+			.then(response => response.json())
+			.then(data => this.setState({ ...this.state, users: data }));
 	}
 
 	render() {
-		const { auth } = this.state;
+		const { auth, users } = this.state;
 		return (
 			<div>
-				<Header email={auth.email} pictureUrl={auth.pictureUrl}/>
+				<Header email={auth.email} pictureUrl={auth.pictureUrl} />
 
-				<UserOverview/>
+				<UserOverview users={users} />
 			</div>
 		)
 	}
-
 }
 
 ReactDOM.render(<Index/>, document.getElementById("main"));
