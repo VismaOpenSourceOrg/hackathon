@@ -77,6 +77,7 @@
 .ideas--entry--content {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .ideas--entry--header {
     display: flex;
@@ -130,4 +131,14 @@ ideas--creator--description {
     font-weight: bold;
     color: white;
     background-color: #0085ca;
+}
+
+.md strong {
+    font-weight: bold;
+}
+.md em {
+    font-style: italic;
+}
+.md code {
+    font-family: monospace;
 }

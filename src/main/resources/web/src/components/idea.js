@@ -3,6 +3,8 @@
 import React from "react";
 import moment from "moment";
 
+import ReactMarkdown from "react-markdown";
+
 import type { User } from "./user";
 
 export type Idea = {
@@ -79,7 +81,7 @@ class IdeaCreator extends React.Component<
         <textarea
           className="ideas--creator--description"
           name="description"
-          placeholder="Description"
+          placeholder="Description (markdown supported!)"
           value={this.state.description}
           onChange={this.handleChange.bind(this)}
         />
@@ -108,8 +110,8 @@ const IdeaEntry = (props: { idea: Idea }) => (
           {moment(props.idea.created).fromNow()}
         </span>
       </div>
-      <span className="ideas--entry--description">
-        {props.idea.description}
+      <span className="ideas--entry--description md">
+        <ReactMarkdown source={props.idea.description} />
       </span>
     </div>
   </div>
