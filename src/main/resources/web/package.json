@@ -12,8 +12,11 @@
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
+    "flow-bin": "^0.80.0",
+    "flow-typed": "^2.5.1",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "webpack": "^4.18.0",

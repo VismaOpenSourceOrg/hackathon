@@ -1,49 +1,72 @@
+// @flow
+
 import React from "react";
 import ReactDOM from "react-dom";
 
-const Header = ({ email, pictureUrl }) => (
+
+type User = {
+    uuid: string,
+    firstName: string,
+    lastName: string,
+    fullName: string,
+    email: string,
+    pictureUrl: string,
+    created: string
+}
+
+type Idea = {
+    uuid: string,
+    title: string,
+    description: string,
+    createdBy: User,
+    created: string,
+}
+
+const Header = (props: { user: ?User }) => (
   <div className="header">
     <span className="header--title">Hackathon</span>
-    <div className="header--auth">
-      <span className="header--auth--email">{email}</span>
-      <img className="header--auth--picture" src={pictureUrl} />
-    </div>
+	  {props.user &&
+      <div className="header--auth">
+		<span className="header--auth--email">{props.user.email}</span>
+		<img className="header--auth--picture" src={props.user.pictureUrl} />
+        </div>
+    }
   </div>
 );
 
-const UserOverview = ({ users }) => (
+const UserOverview = (props: { users: Array<User>}) => (
   <div className="users box">
     <span className="users--header box--header">Registered users</span>
     <div className="users--list">
-      {users.map(user => (
-        <User key={user.uuid} user={user} />
+      {props.users.map(user => (
+        <UserEntry key={user.uuid} user={user} />
       ))}
     </div>
   </div>
 );
 
-const User = ({ user }) => (
+const UserEntry = (props: { user: User }) => (
   <div className="users--entry">
     <img
       className="users--entry--picture entry--picture"
-      src={user.pictureUrl}
+      src={props.user.pictureUrl}
     />
-    <span className="users--entry--name" title={user.email}>
-      {user.fullName}
+    <span className="users--entry--name" title={props.user.email}>
+      {props.user.fullName}
     </span>
   </div>
 );
 
-const IdeaOverview = ({ ideas, createIdea }) => (
+const IdeaOverview = (props: { ideas: Array<Idea>, createIdea: (string, string) => any }) => (
   <div className="ideas box">
     <span className="ideas--header box--header">Ideas</span>
 
-    <IdeaCreator createIdea={createIdea} />
+    <IdeaCreator createIdea={props.createIdea} />
 
-    {ideas ? (
+    {props.ideas ? (
       <div className="ideas--list">
-        {ideas.map(idea => (
-          <Idea key={idea.uuid} idea={idea} />
+        {props.ideas.map(idea => (
+          <IdeaEntry key={idea.uuid} idea={idea} />
         ))}
       </div>
     ) : (
@@ -52,7 +75,7 @@ const IdeaOverview = ({ ideas, createIdea }) => (
   </div>
 );
 
-class IdeaCreator extends React.Component {
+class IdeaCreator extends React.Component<{createIdea: (string, string) => any} ,{ title: string, description: string }> {
   constructor(props) {
     super(props);
     this.state = {
@@ -109,24 +132,24 @@ class IdeaCreator extends React.Component {
   }
 }
 
-const Idea = ({ idea }) => (
+const IdeaEntry = (props: { idea: Idea }) => (
   <div className="ideas--entry">
     <img
       className="ideas--entry--picture entry--picture"
-      src={idea.createdBy.pictureUrl}
-      title={idea.createdBy.fullName}
+      src={props.idea.createdBy.pictureUrl}
+      title={props.idea.createdBy.fullName}
     />
-    <span className="ideas--entry--title">{idea.title}</span>
-    <span className="ideas--entry--description">{idea.description}</span>
+    <span className="ideas--entry--title">{props.idea.title}</span>
+    <span className="ideas--entry--description">{props.idea.description}</span>
   </div>
 );
 
-class Index extends React.Component {
+class Index extends React.Component<{}, { auth: ?User, users: Array<User>, ideas: Array<Idea>}> {
   constructor(props) {
     super(props);
 
     this.state = {
-      auth: {},
+      auth: null,
       users: [],
       ideas: []
     };
@@ -165,7 +188,7 @@ class Index extends React.Component {
     const { auth, users, ideas } = this.state;
     return (
       <div>
-        <Header email={auth.email} pictureUrl={auth.pictureUrl} />
+        <Header user={auth} />
 
         <IdeaOverview
           ideas={ideas}
@@ -180,4 +203,7 @@ class Index extends React.Component {
   }
 }
 
-ReactDOM.render(<Index />, document.getElementById("main"));
+const element = document.getElementById("main");
+if (element) {
+    ReactDOM.render(<Index />, element);
+}
