@@ -12,6 +12,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.anyRequest().authenticated()
 				.and()
+				.csrf().disable()
 				.oauth2Login()
 				.defaultSuccessUrl("/oauth-login-success", true);
 	}

@@ -28,7 +28,7 @@ public class AuthController {
 
 	@GetMapping("/auth")
 	public User getLoginInfo() {
-		return authService.getLoggedInUser().orElseThrow(() -> new InsufficientAuthenticationException("Not logged in"));
+		return authService.getLoggedInUser();
 	}
 
 

@@ -66,11 +66,12 @@ public class AuthService {
 		return userAttributes;
 	}
 
-	public Optional<User> getLoggedInUser() {
+	public User getLoggedInUser() {
 		return getAuthorizationToken()
 				.map((auth) -> (String) auth.getPrincipal().getAttributes().get("email"))
 				.map(email -> userRepository.findUserByEmail(email)
-						.orElseThrow(() -> new RuntimeException("Could not find user in database")));
+						.orElseThrow(() -> new RuntimeException("Could not find user in database")))
+				.get();
 	}
 
 
