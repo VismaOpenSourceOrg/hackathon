@@ -24,12 +24,13 @@
 }
 
 .header--auth--email {
-    font-size: 17px
+    font-size: 17px;
+    font-family: 'trebuche ms';
 }
 
 .users--header {
     font-size: 1.7em;
-    font-family: sans-serif;
+    font-family: Palatino;
 }
 
 .users {
@@ -52,7 +53,7 @@
 
 .users--entry--name {
     font-size: 1.2em;
-    font-family: cursive;
+    font-family: Georgia;
 }
 
 .users--entry--picture {
