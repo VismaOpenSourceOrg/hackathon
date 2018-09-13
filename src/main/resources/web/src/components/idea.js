@@ -19,19 +19,24 @@ const IdeaComponent = (props: {
   ideas: Array<Idea>,
   createIdea: (string, string) => any
 }) => (
-  <div className="ideas box">
-    <span className="ideas--header box--header">Ideas</span>
+  <div>
+    <div className="ideas box">
+      <span className="ideas--header box--header">Submit your idea!</span>
 
-    <IdeaCreator createIdea={props.createIdea} />
+      <IdeaCreator createIdea={props.createIdea} />
+    </div>
+    {props.ideas && (
+      <div className="box">
+        <span className="ideas--header box--header box--header--underline">
+          Submitted ideas
+        </span>
 
-    {props.ideas ? (
-      <div className="ideas--list">
-        {props.ideas.map(idea => (
-          <IdeaEntry key={idea.uuid} idea={idea} />
-        ))}
+        <div className="ideas--list">
+          {props.ideas.map(idea => (
+            <IdeaEntry key={idea.uuid} idea={idea} />
+          ))}
+        </div>
       </div>
-    ) : (
-      <span className="ideas--empty-list">No ideas submitted yet</span>
     )}
   </div>
 );
@@ -89,7 +94,7 @@ class IdeaCreator extends React.Component<
           className="ideas--creator--create"
           onClick={() => this.createIdea()}
         >
-          Create
+          Submit idea
         </button>
       </div>
     );

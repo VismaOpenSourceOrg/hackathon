@@ -45,8 +45,10 @@
     color: #003366;
 }
 
-.users--list {
-    border-top: 1px solid #003366cf;
+.box--header--underline {
+    width: 100%;
+    border-bottom: 1px solid #003366cf;
+    display: inline-block;
 }
 
 .users--entry {
