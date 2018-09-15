@@ -25,7 +25,9 @@ const IdeaComponent = (props: {
 
       <IdeaCreator createIdea={props.createIdea} />
     </div>
-    {props.ideas && (
+    {!props.ideas.length ? (
+      ""
+    ) : (
       <div className="box">
         <span className="ideas--header box--header box--header--underline">
           Submitted ideas
