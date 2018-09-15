@@ -138,12 +138,39 @@
     background-color: #0085ca;
 }
 
-.md strong {
-    font-weight: bold;
+md {
+    strong{
+        font-weight: bold;
+    }
+    em {
+        font-style: italic;
+    }
+    code {
+        font-family: monospace;
+    }
 }
-.md em {
-    font-style: italic;
+
+.ideas--entry--likes {
+    align-self: end;
 }
-.md code {
-    font-family: monospace;
+
+.likes {
+    margin-top: 5px;
+    font-family: georgia;
+}
+
+.likes--icon,
+.likes--count {
+    vertical-align: middle;
+    cursor: pointer;
+}
+.likes--count {
+    font-size: 1.3em;
+    margin-left: 3px;
+    margin-right: 5px;
+}
+.likes--names {
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

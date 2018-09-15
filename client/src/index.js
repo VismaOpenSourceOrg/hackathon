@@ -21,6 +21,8 @@ const Header = (props: { user: ?User }) => (
   </div>
 );
 
+let globalAuth;
+
 class Index extends React.Component<
   {},
   { auth: ?User, users: Array<User>, ideas: Array<Idea> }
@@ -38,7 +40,10 @@ class Index extends React.Component<
   componentDidMount() {
     fetch("/auth", { credentials: "same-origin" })
       .then(response => response.json())
-      .then(data => this.setState({ ...this.state, auth: data }));
+      .then(data => {
+        this.setState({ ...this.state, auth: data });
+        globalAuth = data;
+      });
 
     fetch("/user", { credentials: "same-origin" })
       .then(response => response.json())
@@ -49,7 +54,7 @@ class Index extends React.Component<
       .then(data => this.setState({ ...this.state, ideas: data }));
   }
 
-  createIdea(title, description) {
+  createIdea(title: string, description: string) {
     fetch("/idea", {
       method: "post",
       headers: {
@@ -64,6 +69,32 @@ class Index extends React.Component<
       );
   }
 
+  updateIdea(list: Array<Idea>, idea: Idea) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].uuid === idea.uuid) {
+        list[i] = idea;
+        break;
+      }
+    }
+    return list;
+  }
+
+  toggleLike(idea: Idea) {
+    const already = idea.likes.filter(user => user.uuid === globalAuth.uuid);
+
+    fetch("/idea/" + idea.uuid + "/" + (already.length ? "unlike" : "like"), {
+      method: "put",
+      credentials: "same-origin"
+    })
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          ...this.state,
+          ideas: this.updateIdea([...this.state.ideas], data)
+        })
+      );
+  }
+
   render() {
     const { auth, users, ideas } = this.state;
     return (
@@ -72,9 +103,8 @@ class Index extends React.Component<
 
         <IdeaComponent
           ideas={ideas}
-          createIdea={(title, description) =>
-            this.createIdea(title, description)
-          }
+          createIdea={this.createIdea.bind(this)}
+          toggleLike={this.toggleLike.bind(this)}
         />
 
         <UserComponent users={users} />

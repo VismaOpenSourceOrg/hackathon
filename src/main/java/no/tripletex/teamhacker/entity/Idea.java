@@ -1,13 +1,18 @@
 package no.tripletex.teamhacker.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,6 +38,13 @@ public class Idea {
 	private ZonedDateTime created;
 
 	private ZonedDateTime updated;
+
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			})
+	private Set<User> likes = new HashSet<>();
 
 	public Idea() {
 
@@ -89,5 +101,13 @@ public class Idea {
 
 	public void setUpdated(ZonedDateTime updated) {
 		this.updated = updated;
+	}
+
+	public Set<User> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Set<User> likes) {
+		this.likes = likes;
 	}
 }

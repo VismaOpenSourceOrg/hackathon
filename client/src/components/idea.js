@@ -5,6 +5,8 @@ import moment from "moment";
 
 import ReactMarkdown from "react-markdown";
 
+import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
+
 import type { User } from "./user";
 
 export type Idea = {
@@ -12,12 +14,14 @@ export type Idea = {
   title: string,
   description: string,
   createdBy: User,
-  created: string
+  created: string,
+  likes: Array<User>
 };
 
 const IdeaComponent = (props: {
   ideas: Array<Idea>,
-  createIdea: (string, string) => any
+  createIdea: (string, string) => any,
+  toggleLike: (idea: Idea) => any
 }) => (
   <div>
     <div className="ideas box">
@@ -35,7 +39,11 @@ const IdeaComponent = (props: {
 
         <div className="ideas--list">
           {props.ideas.map(idea => (
-            <IdeaEntry key={idea.uuid} idea={idea} />
+            <IdeaEntry
+              key={idea.uuid}
+              idea={idea}
+              toggleLike={props.toggleLike}
+            />
           ))}
         </div>
       </div>
@@ -103,7 +111,7 @@ class IdeaCreator extends React.Component<
   }
 }
 
-const IdeaEntry = (props: { idea: Idea }) => (
+const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
   <div className="ideas--entry">
     <img
       className="ideas--entry--picture entry--picture"
@@ -119,6 +127,22 @@ const IdeaEntry = (props: { idea: Idea }) => (
       </div>
       <span className="ideas--entry--description md">
         <ReactMarkdown source={props.idea.description} />
+      </span>
+      <span
+        className="likes ideas--entry--likes"
+        onClick={() => props.toggleLike(props.idea)}
+      >
+        <ThumbUpSharp className="likes--icon" />
+        {props.idea.likes.length === 0 ? (
+          ""
+        ) : (
+          <span>
+            <span className="likes--count">{props.idea.likes.length}</span>
+            <span className="likes--names">
+              {props.idea.likes.map(user => user.firstName).join(", ")}
+            </span>
+          </span>
+        )}
       </span>
     </div>
   </div>
