@@ -5,6 +5,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: ["./src/index.js", "./sass/index.scss"],
   devtool: "source-map",
+  devServer: {
+    proxy: [
+      {
+        context: ["/login", "/oauth-login-success", "/oauth2", "/api"],
+        target: "http://localhost:8081"
+      }
+    ]
+  },
   output: {
     filename: "js/[name].js",
     path: path.resolve(__dirname, "../src/main/resources/static")
