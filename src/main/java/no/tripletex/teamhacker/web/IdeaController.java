@@ -1,7 +1,7 @@
 package no.tripletex.teamhacker.web;
 
-import no.tripletex.teamhacker.entity.Idea;
 import no.tripletex.teamhacker.entity.User;
+import no.tripletex.teamhacker.entity.Idea;
 import no.tripletex.teamhacker.repository.IdeaRepository;
 import no.tripletex.teamhacker.service.AuthService;
 import no.tripletex.teamhacker.service.IdeaService;

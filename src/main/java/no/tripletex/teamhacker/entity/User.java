@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Entity
+@Entity(name =  "HackUser")
 public class User {
 
 	@Id
