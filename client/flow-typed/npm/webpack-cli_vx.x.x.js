@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'webpack-cli' {
+declare module "webpack-cli" {
   declare module.exports: any;
 }
 
@@ -22,46 +22,46 @@ declare module 'webpack-cli' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'webpack-cli/bin/cli' {
+declare module "webpack-cli/bin/cli" {
   declare module.exports: any;
 }
 
-declare module 'webpack-cli/bin/config-yargs' {
+declare module "webpack-cli/bin/config-yargs" {
   declare module.exports: any;
 }
 
-declare module 'webpack-cli/bin/convert-argv' {
+declare module "webpack-cli/bin/convert-argv" {
   declare module.exports: any;
 }
 
-declare module 'webpack-cli/bin/errorHelpers' {
+declare module "webpack-cli/bin/errorHelpers" {
   declare module.exports: any;
 }
 
-declare module 'webpack-cli/bin/prepareOptions' {
+declare module "webpack-cli/bin/prepareOptions" {
   declare module.exports: any;
 }
 
-declare module 'webpack-cli/bin/prompt-command' {
+declare module "webpack-cli/bin/prompt-command" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'webpack-cli/bin/cli.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/cli'>;
+declare module "webpack-cli/bin/cli.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/cli">;
 }
-declare module 'webpack-cli/bin/config-yargs.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/config-yargs'>;
+declare module "webpack-cli/bin/config-yargs.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/config-yargs">;
 }
-declare module 'webpack-cli/bin/convert-argv.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/convert-argv'>;
+declare module "webpack-cli/bin/convert-argv.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/convert-argv">;
 }
-declare module 'webpack-cli/bin/errorHelpers.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/errorHelpers'>;
+declare module "webpack-cli/bin/errorHelpers.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/errorHelpers">;
 }
-declare module 'webpack-cli/bin/prepareOptions.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/prepareOptions'>;
+declare module "webpack-cli/bin/prepareOptions.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/prepareOptions">;
 }
-declare module 'webpack-cli/bin/prompt-command.js' {
-  declare module.exports: $Exports<'webpack-cli/bin/prompt-command'>;
+declare module "webpack-cli/bin/prompt-command.js" {
+  declare module.exports: $Exports<"webpack-cli/bin/prompt-command">;
 }
