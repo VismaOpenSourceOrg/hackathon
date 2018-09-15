@@ -161,16 +161,15 @@ md {
 
 .likes--icon,
 .likes--count {
-    vertical-align: middle;
+    vertical-align: bottom;
     cursor: pointer;
 }
 .likes--count {
-    font-size: 1.3em;
     margin-left: 3px;
     margin-right: 5px;
 }
 .likes--names {
-    vertical-align: middle;
+    vertical-align: bottom;
     overflow: hidden;
     text-overflow: ellipsis;
 }

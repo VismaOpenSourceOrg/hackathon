@@ -111,6 +111,14 @@ class IdeaCreator extends React.Component<
   }
 }
 
+const joinNatural = (list: Array<any>) => {
+  if (!list.length) return null;
+  if (list.length === 1) return list[0];
+
+  const firstParts = list.slice(0, -1).join(", ");
+  return firstParts + " and " + list[list.length - 1];
+};
+
 const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
   <div className="ideas--entry">
     <img
@@ -139,7 +147,8 @@ const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
           <span>
             <span className="likes--count">{props.idea.likes.length}</span>
             <span className="likes--names">
-              {props.idea.likes.map(user => user.firstName).join(", ")}
+              {joinNatural(props.idea.likes.map(user => user.firstName))} likes
+              this
             </span>
           </span>
         )}
