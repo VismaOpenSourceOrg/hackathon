@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/idea")
+@RequestMapping("/api/idea")
 public class IdeaController {
 
 	@Autowired

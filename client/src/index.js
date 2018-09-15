@@ -38,24 +38,24 @@ class Index extends React.Component<
   }
 
   componentDidMount() {
-    fetch("/auth", { credentials: "same-origin" })
+    fetch("/api/auth", { credentials: "same-origin" })
       .then(response => response.json())
       .then(data => {
         this.setState({ ...this.state, auth: data });
         globalAuth = data;
       });
 
-    fetch("/user", { credentials: "same-origin" })
+    fetch("/api/user", { credentials: "same-origin" })
       .then(response => response.json())
       .then(data => this.setState({ ...this.state, users: data }));
 
-    fetch("/idea", { credentials: "same-origin" })
+    fetch("/api/idea", { credentials: "same-origin" })
       .then(response => response.json())
       .then(data => this.setState({ ...this.state, ideas: data }));
   }
 
   createIdea(title: string, description: string) {
-    fetch("/idea", {
+    fetch("/api/idea", {
       method: "post",
       headers: {
         "content-type": "application/json"
@@ -82,10 +82,13 @@ class Index extends React.Component<
   toggleLike(idea: Idea) {
     const already = idea.likes.filter(user => user.uuid === globalAuth.uuid);
 
-    fetch("/idea/" + idea.uuid + "/" + (already.length ? "unlike" : "like"), {
-      method: "put",
-      credentials: "same-origin"
-    })
+    fetch(
+      "/api/idea/" + idea.uuid + "/" + (already.length ? "unlike" : "like"),
+      {
+        method: "put",
+        credentials: "same-origin"
+      }
+    )
       .then(response => response.json())
       .then(data =>
         this.setState({

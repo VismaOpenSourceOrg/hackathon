@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hackathon")
+@RequestMapping("/api/hackathon")
 public class HackathonController {
 
 	@Autowired
