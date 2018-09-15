@@ -4,7 +4,7 @@ module.exports = {
 	entry: './src/index.js',
 	output: {
 		filename: 'teamhacker.js',
-		path: path.resolve(__dirname, '../static/js')
+		path: path.resolve(__dirname, '../src/main/resources/static/js')
 	},
 	module: {
 		rules: [
