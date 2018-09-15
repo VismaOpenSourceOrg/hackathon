@@ -1,6 +1,7 @@
 // @flow
 
 import React from "react";
+import { connect } from "react-redux";
 
 export type User = {
   uuid: string,
@@ -37,4 +38,19 @@ const UserEntry = (props: { user: User }) => (
   </div>
 );
 
-export default UserComponent;
+const mapStateToProps: any = state => {
+  return {
+    users: state.users
+  };
+};
+
+const mapDispatchToProps: any = dispatch => {
+  return {};
+};
+
+const ConnectedUserComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserComponent);
+
+export default ConnectedUserComponent;

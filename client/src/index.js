@@ -1,13 +1,26 @@
 // @flow
 
+import babelPolyfill from "@babel/polyfill";
+
 import React from "react";
 import ReactDOM from "react-dom";
+
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
 
 import type { User } from "./components/user";
 import type { Idea } from "./components/idea";
 
-import UserComponent from "./components/user";
+import ConnectedUserComponent from "./components/user";
 import IdeaComponent from "./components/idea";
+
+import saga from "./store/saga";
+import reducer from "./store/reducer";
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(saga);
 
 const Header = (props: { user: ?User }) => (
   <div className="header">
@@ -23,16 +36,12 @@ const Header = (props: { user: ?User }) => (
 
 let globalAuth;
 
-class Index extends React.Component<
-  {},
-  { auth: ?User, users: Array<User>, ideas: Array<Idea> }
-> {
+class Index extends React.Component<{}, { auth: ?User, ideas: Array<Idea> }> {
   constructor(props) {
     super(props);
 
     this.state = {
       auth: null,
-      users: [],
       ideas: []
     };
   }
@@ -44,10 +53,6 @@ class Index extends React.Component<
         this.setState({ ...this.state, auth: data });
         globalAuth = data;
       });
-
-    fetch("/api/user", { credentials: "same-origin" })
-      .then(response => response.json())
-      .then(data => this.setState({ ...this.state, users: data }));
 
     fetch("/api/idea", { credentials: "same-origin" })
       .then(response => response.json())
@@ -99,7 +104,7 @@ class Index extends React.Component<
   }
 
   render() {
-    const { auth, users, ideas } = this.state;
+    const { auth, ideas } = this.state;
     return (
       <div>
         <Header user={auth} />
@@ -110,7 +115,7 @@ class Index extends React.Component<
           toggleLike={this.toggleLike.bind(this)}
         />
 
-        <UserComponent users={users} />
+        <ConnectedUserComponent />
       </div>
     );
   }
@@ -118,5 +123,10 @@ class Index extends React.Component<
 
 const element = document.getElementById("main");
 if (element) {
-  ReactDOM.render(<Index />, element);
+  ReactDOM.render(
+    <Provider store={store}>
+      <Index />
+    </Provider>,
+    element
+  );
 }
