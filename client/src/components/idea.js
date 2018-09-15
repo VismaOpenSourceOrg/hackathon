@@ -3,6 +3,8 @@
 import React from "react";
 import moment from "moment";
 
+import { connect } from "react-redux";
+
 import ReactMarkdown from "react-markdown";
 
 import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
@@ -157,4 +159,26 @@ const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
   </div>
 );
 
-export default IdeaComponent;
+const mapStateToProps: any = state => {
+  return {
+    ideas: state.ideas
+  };
+};
+
+const mapDispatchToProps: any = dispatch => {
+  return {
+    createIdea: (title: string, description: string) => {
+      dispatch({ type: "CREATE_IDEA", data: { title, description } });
+    },
+    toggleLike: (idea: Idea) => {
+      dispatch({ type: "TOGGLE_LIKE_IDEA", data: { idea: idea } });
+    }
+  };
+};
+
+const ConnectedIdeaComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IdeaComponent);
+
+export default ConnectedIdeaComponent;

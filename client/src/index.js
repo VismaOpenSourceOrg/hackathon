@@ -5,21 +5,24 @@ import babelPolyfill from "@babel/polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 
 import type { User } from "./components/user";
-import type { Idea } from "./components/idea";
 
 import ConnectedUserComponent from "./components/user";
-import IdeaComponent from "./components/idea";
+import ConnectedIdeaComponent from "./components/idea";
 
 import saga from "./store/saga";
 import reducer from "./store/reducer";
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const store = createStore(
+  reducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
+);
 sagaMiddleware.run(saga);
 
 const Header = (props: { user: ?User }) => (
@@ -34,15 +37,12 @@ const Header = (props: { user: ?User }) => (
   </div>
 );
 
-let globalAuth;
-
-class Index extends React.Component<{}, { auth: ?User, ideas: Array<Idea> }> {
+class Index extends React.Component<{}, { auth: ?User }> {
   constructor(props) {
     super(props);
 
     this.state = {
-      auth: null,
-      ideas: []
+      auth: null
     };
   }
 
@@ -51,69 +51,16 @@ class Index extends React.Component<{}, { auth: ?User, ideas: Array<Idea> }> {
       .then(response => response.json())
       .then(data => {
         this.setState({ ...this.state, auth: data });
-        globalAuth = data;
       });
-
-    fetch("/api/idea", { credentials: "same-origin" })
-      .then(response => response.json())
-      .then(data => this.setState({ ...this.state, ideas: data }));
-  }
-
-  createIdea(title: string, description: string) {
-    fetch("/api/idea", {
-      method: "post",
-      headers: {
-        "content-type": "application/json"
-      },
-      credentials: "same-origin",
-      body: JSON.stringify({ title, description })
-    })
-      .then(response => response.json())
-      .then(data =>
-        this.setState({ ...this.state, ideas: [...this.state.ideas, data] })
-      );
-  }
-
-  updateIdea(list: Array<Idea>, idea: Idea) {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].uuid === idea.uuid) {
-        list[i] = idea;
-        break;
-      }
-    }
-    return list;
-  }
-
-  toggleLike(idea: Idea) {
-    const already = idea.likes.filter(user => user.uuid === globalAuth.uuid);
-
-    fetch(
-      "/api/idea/" + idea.uuid + "/" + (already.length ? "unlike" : "like"),
-      {
-        method: "put",
-        credentials: "same-origin"
-      }
-    )
-      .then(response => response.json())
-      .then(data =>
-        this.setState({
-          ...this.state,
-          ideas: this.updateIdea([...this.state.ideas], data)
-        })
-      );
   }
 
   render() {
-    const { auth, ideas } = this.state;
+    const { auth } = this.state;
     return (
       <div>
         <Header user={auth} />
 
-        <IdeaComponent
-          ideas={ideas}
-          createIdea={this.createIdea.bind(this)}
-          toggleLike={this.toggleLike.bind(this)}
-        />
+        <ConnectedIdeaComponent />
 
         <ConnectedUserComponent />
       </div>

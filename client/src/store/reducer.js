@@ -22,9 +22,10 @@ function reducer(state: State = initialState, action: any) {
       return { ...state, users: action.data };
     case "AUTH_SUCCESS":
       return { ...state, auth: action.data };
-    case "IDEA_SUCCESS":
+    case "IDEAS_SUCCESS":
       return { ...state, ideas: action.data };
     default:
+      console.warn("Unhandled action", action.type);
       return state;
   }
 }
