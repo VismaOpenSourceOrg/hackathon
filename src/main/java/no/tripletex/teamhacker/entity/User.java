@@ -33,6 +33,7 @@ public class User {
 
 	@Column(unique = true)
 	@NotEmpty
+	@NotNull
 	@Email
 	private String email;
 

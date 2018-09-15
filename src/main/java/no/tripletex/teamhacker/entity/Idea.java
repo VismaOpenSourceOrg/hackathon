@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -17,14 +18,18 @@ public class Idea {
 	private UUID uuid;
 
 	@NotEmpty
+	@NotNull
 	private String title;
 
 	@NotEmpty
+	@NotNull
 	private String description;
 
 	@ManyToOne
+	@NotNull
 	private User createdBy;
 
+	@NotNull
 	private ZonedDateTime created;
 
 	private ZonedDateTime updated;
