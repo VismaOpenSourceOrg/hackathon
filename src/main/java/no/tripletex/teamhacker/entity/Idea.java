@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
@@ -44,6 +45,7 @@ public class Idea {
 					CascadeType.PERSIST,
 					CascadeType.MERGE
 			})
+	@OrderBy("created")
 	private Set<User> likes = new HashSet<>();
 
 	public Idea() {

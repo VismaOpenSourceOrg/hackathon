@@ -37,6 +37,11 @@ public class IdeaController {
 		return ideaRepository.findAll();
 	}
 
+	@GetMapping("/{uuid}")
+	public Idea getIdea(@PathVariable UUID uuid) {
+		return ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea" ));
+	}
+
 	@PostMapping
 	public Idea create(@RequestBody CreationDTO creationDTO) {
 		User user = authService.getLoggedInUser();
