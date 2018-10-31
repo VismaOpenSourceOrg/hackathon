@@ -16,6 +16,7 @@ module.exports = {
   },
   output: {
     filename: "js/[name].js",
+    publicPath: "/",
     path: path.resolve(__dirname, "../src/main/resources/static")
   },
   plugins: [

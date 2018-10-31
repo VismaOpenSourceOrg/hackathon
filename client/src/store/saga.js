@@ -27,7 +27,10 @@ function* fetchAuth(): * {
 }
 
 function* authSuccess(): * {
-  yield put(push("/ideas"));
+  const state = yield select();
+  if (!state.router.location || state.router.location.pathname === "/") {
+    yield put(push("/ideas"));
+  }
 }
 
 function* fetchIdeas(): * {
@@ -94,16 +97,18 @@ type LocationType = {
   state: any
 };
 
-function* routerChange({ action: string, location: LocationType }): * {
-  console.debug("Navigating to ", location.pathname);
+function* routerChange(props: {
+  payload: { action: string, location: LocationType }
+}): * {
+  console.debug("Navigating to ", props);
 
-  switch (location.pathname) {
+  switch (props.payload.location.pathname) {
     case "/ideas":
       yield put({ type: "USERS_REQUESTED" });
       yield put({ type: "IDEAS_REQUESTED" });
       break;
     default:
-      console.warn("Unhandled location ", location.pathname);
+      console.warn("Unhandled location ", props.payload.location.pathname);
   }
 }
 

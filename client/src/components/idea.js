@@ -130,7 +130,9 @@ const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
     />
     <div className="ideas--entry--content">
       <div className="ideas--entry--header">
-        <span className="ideas--entry--title">{props.idea.title}</span>
+        <span className="ideas--entry--title">
+          <a href={`/ideas/${props.idea.uuid}`}>{props.idea.title}</a>
+        </span>
         <span className="ideas--entry--timestamp">
           {moment(props.idea.created).fromNow()}
         </span>

@@ -37,20 +37,22 @@ sagaMiddleware.run(saga);
 
 const Index = () => (
   <div>
-    <ConnectedHeaderComponent />
-    <div>
-      <a href="/oauth2/authorization/google">
-        Sign in with your @visma.com e-mail address
-      </a>
-    </div>
+    <a href="/oauth2/authorization/google">
+      Sign in with your @visma.com e-mail address
+    </a>
   </div>
 );
 
 const IdeasPage = () => (
   <div>
-    <ConnectedHeaderComponent />
     <ConnectedIdeaComponent />
     <ConnectedUserComponent />
+  </div>
+);
+
+const IdeaDetailsPage = () => (
+  <div>
+    <ConnectedIdeaComponent />
   </div>
 );
 
@@ -58,13 +60,17 @@ const element = document.getElementById("main");
 if (element) {
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact path="/" render={() => <Index />} />
-          <Route exact path="/ideas" render={() => <IdeasPage />} />
-          <Route render={() => <div>No such page</div>} />
-        </Switch>
-      </ConnectedRouter>
+      <div>
+        <ConnectedHeaderComponent />
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact path="/" render={() => <Index />} />
+            <Route exact path="/ideas" render={() => <IdeasPage />} />
+            <Route path="/ideas/:id" render={() => <IdeaDetailsPage />} />
+            <Route render={() => <div>No such page</div>} />
+          </Switch>
+        </ConnectedRouter>
+      </div>
     </Provider>,
     element
   );
