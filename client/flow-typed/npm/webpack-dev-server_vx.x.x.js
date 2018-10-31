@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'webpack-dev-server' {
+declare module "webpack-dev-server" {
   declare module.exports: any;
 }
 
@@ -22,102 +22,104 @@ declare module 'webpack-dev-server' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'webpack-dev-server/bin/options' {
+declare module "webpack-dev-server/bin/options" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/bin/utils' {
+declare module "webpack-dev-server/bin/utils" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/bin/webpack-dev-server' {
+declare module "webpack-dev-server/bin/webpack-dev-server" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/index.bundle' {
+declare module "webpack-dev-server/client/index.bundle" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/index' {
+declare module "webpack-dev-server/client/index" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/live.bundle' {
+declare module "webpack-dev-server/client/live.bundle" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/overlay' {
+declare module "webpack-dev-server/client/overlay" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/socket' {
+declare module "webpack-dev-server/client/socket" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/client/sockjs.bundle' {
+declare module "webpack-dev-server/client/sockjs.bundle" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/lib/Server' {
+declare module "webpack-dev-server/lib/Server" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/lib/utils/addEntries' {
+declare module "webpack-dev-server/lib/utils/addEntries" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/lib/utils/createCertificate' {
+declare module "webpack-dev-server/lib/utils/createCertificate" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/lib/utils/createDomain' {
+declare module "webpack-dev-server/lib/utils/createDomain" {
   declare module.exports: any;
 }
 
-declare module 'webpack-dev-server/lib/utils/createLogger' {
+declare module "webpack-dev-server/lib/utils/createLogger" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'webpack-dev-server/bin/options.js' {
-  declare module.exports: $Exports<'webpack-dev-server/bin/options'>;
+declare module "webpack-dev-server/bin/options.js" {
+  declare module.exports: $Exports<"webpack-dev-server/bin/options">;
 }
-declare module 'webpack-dev-server/bin/utils.js' {
-  declare module.exports: $Exports<'webpack-dev-server/bin/utils'>;
+declare module "webpack-dev-server/bin/utils.js" {
+  declare module.exports: $Exports<"webpack-dev-server/bin/utils">;
 }
-declare module 'webpack-dev-server/bin/webpack-dev-server.js' {
-  declare module.exports: $Exports<'webpack-dev-server/bin/webpack-dev-server'>;
+declare module "webpack-dev-server/bin/webpack-dev-server.js" {
+  declare module.exports: $Exports<"webpack-dev-server/bin/webpack-dev-server">;
 }
-declare module 'webpack-dev-server/client/index.bundle.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/index.bundle'>;
+declare module "webpack-dev-server/client/index.bundle.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/index.bundle">;
 }
-declare module 'webpack-dev-server/client/index.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/index'>;
+declare module "webpack-dev-server/client/index.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/index">;
 }
-declare module 'webpack-dev-server/client/live.bundle.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/live.bundle'>;
+declare module "webpack-dev-server/client/live.bundle.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/live.bundle">;
 }
-declare module 'webpack-dev-server/client/overlay.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/overlay'>;
+declare module "webpack-dev-server/client/overlay.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/overlay">;
 }
-declare module 'webpack-dev-server/client/socket.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/socket'>;
+declare module "webpack-dev-server/client/socket.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/socket">;
 }
-declare module 'webpack-dev-server/client/sockjs.bundle.js' {
-  declare module.exports: $Exports<'webpack-dev-server/client/sockjs.bundle'>;
+declare module "webpack-dev-server/client/sockjs.bundle.js" {
+  declare module.exports: $Exports<"webpack-dev-server/client/sockjs.bundle">;
 }
-declare module 'webpack-dev-server/lib/Server.js' {
-  declare module.exports: $Exports<'webpack-dev-server/lib/Server'>;
+declare module "webpack-dev-server/lib/Server.js" {
+  declare module.exports: $Exports<"webpack-dev-server/lib/Server">;
 }
-declare module 'webpack-dev-server/lib/utils/addEntries.js' {
-  declare module.exports: $Exports<'webpack-dev-server/lib/utils/addEntries'>;
+declare module "webpack-dev-server/lib/utils/addEntries.js" {
+  declare module.exports: $Exports<"webpack-dev-server/lib/utils/addEntries">;
 }
-declare module 'webpack-dev-server/lib/utils/createCertificate.js' {
-  declare module.exports: $Exports<'webpack-dev-server/lib/utils/createCertificate'>;
+declare module "webpack-dev-server/lib/utils/createCertificate.js" {
+  declare module.exports: $Exports<
+    "webpack-dev-server/lib/utils/createCertificate"
+  >;
 }
-declare module 'webpack-dev-server/lib/utils/createDomain.js' {
-  declare module.exports: $Exports<'webpack-dev-server/lib/utils/createDomain'>;
+declare module "webpack-dev-server/lib/utils/createDomain.js" {
+  declare module.exports: $Exports<"webpack-dev-server/lib/utils/createDomain">;
 }
-declare module 'webpack-dev-server/lib/utils/createLogger.js' {
-  declare module.exports: $Exports<'webpack-dev-server/lib/utils/createLogger'>;
+declare module "webpack-dev-server/lib/utils/createLogger.js" {
+  declare module.exports: $Exports<"webpack-dev-server/lib/utils/createLogger">;
 }
