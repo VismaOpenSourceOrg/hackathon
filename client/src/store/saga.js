@@ -22,7 +22,7 @@ function* fetchAuth(): * {
 
     yield put({ type: "AUTH_SUCCESS", data });
   } catch (error) {
-    yield put({ type: "AUTH_FAILED", error });
+    yield put({ type: "AUTH_FAILURE", error });
   }
 }
 
@@ -33,12 +33,35 @@ function* authSuccess(): * {
   }
 }
 
+function* authFailure(): * {
+  const state = yield select();
+  if (state.router.location && state.router.location.pathname !== "/") {
+    yield put(push("/"));
+  }
+}
+
 function* fetchIdeas(): * {
-  const response = yield call(fetch, "/api/idea", {
-    credentials: "same-origin"
-  });
-  const data = yield call([response, response.json]);
-  yield put({ type: "IDEAS_SUCCESS", data });
+  try {
+    const response = yield call(fetch, "/api/idea", {
+      credentials: "same-origin"
+    });
+    const data = yield call([response, response.json]);
+    yield put({ type: "IDEAS_SUCCESS", data });
+  } catch (error) {
+    yield put({ type: "IDEAS_FAILURE", error });
+  }
+}
+
+function* fetchIdea(action: { uuid: string }): * {
+  try {
+    const response = yield call(fetch, `/api/idea/${action.uuid}`, {
+      credentials: "same-origin"
+    });
+    const data = yield call([response, response.json]);
+    yield put({ type: "IDEA_SUCCESS", data });
+  } catch (error) {
+    yield put({ type: "IDEA_FAILURE", error });
+  }
 }
 
 function* initialLoad(): * {
@@ -100,15 +123,19 @@ type LocationType = {
 function* routerChange(props: {
   payload: { action: string, location: LocationType }
 }): * {
-  console.debug("Navigating to ", props);
+  const { pathname } = props.payload.location;
+  console.debug("Navigating to ", pathname);
 
-  switch (props.payload.location.pathname) {
-    case "/ideas":
-      yield put({ type: "USERS_REQUESTED" });
-      yield put({ type: "IDEAS_REQUESTED" });
-      break;
-    default:
-      console.warn("Unhandled location ", props.payload.location.pathname);
+  if (pathname === "/ideas") {
+    yield put({ type: "USERS_REQUESTED" });
+    yield put({ type: "IDEAS_REQUESTED" });
+    return;
+  }
+
+  const m = /^\/ideas\/([^\/]+)/.exec(pathname);
+  if (m) {
+    const uuid = m[1];
+    yield put({ type: "IDEA_REQUESTED", uuid });
   }
 }
 
@@ -116,11 +143,13 @@ export default function*(): any {
   yield takeEvery("USERS_REQUESTED", fetchUsers);
   yield takeEvery("AUTH_REQUESTED", fetchAuth);
   yield takeEvery("IDEAS_REQUESTED", fetchIdeas);
+  yield takeEvery("IDEA_REQUESTED", fetchIdea);
 
   yield takeEvery("CREATE_IDEA", createIdea);
   yield takeEvery("TOGGLE_LIKE_IDEA", toggleLike);
 
   yield takeEvery("AUTH_SUCCESS", authSuccess);
+  yield takeEvery("AUTH_FAILURE", authFailure);
 
   yield takeEvery("@@router/LOCATION_CHANGE", routerChange);
 

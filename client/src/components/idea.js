@@ -4,12 +4,15 @@ import React from "react";
 import moment from "moment";
 
 import { connect } from "react-redux";
+import { push } from "connected-react-router";
 
 import ReactMarkdown from "react-markdown";
 
 import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
 
 import type { User } from "./user";
+
+import { joinNatural } from "../common/util.js";
 
 export type Idea = {
   uuid: string,
@@ -23,7 +26,8 @@ export type Idea = {
 const IdeaComponent = (props: {
   ideas?: Array<Idea>,
   createIdea: (string, string) => any,
-  toggleLike: (idea: Idea) => any
+  toggleLike: (idea: Idea) => any,
+  showDetails: (idea: Idea) => any
 }) => (
   <div>
     <div className="ideas box">
@@ -45,6 +49,7 @@ const IdeaComponent = (props: {
               key={idea.uuid}
               idea={idea}
               toggleLike={props.toggleLike}
+              showDetails={props.showDetails}
             />
           ))}
         </div>
@@ -103,7 +108,7 @@ class IdeaCreator extends React.Component<
           onChange={this.handleChange.bind(this)}
         />
         <button
-          className="ideas--creator--create"
+          className="ideas--creator--create th--button"
           onClick={() => this.createIdea()}
         >
           Submit idea
@@ -113,15 +118,11 @@ class IdeaCreator extends React.Component<
   }
 }
 
-const joinNatural = (list: Array<any>) => {
-  if (!list.length) return null;
-  if (list.length === 1) return list[0];
-
-  const firstParts = list.slice(0, -1).join(", ");
-  return firstParts + " and " + list[list.length - 1];
-};
-
-const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
+const IdeaEntry = (props: {
+  idea: Idea,
+  toggleLike: (idea: Idea) => any,
+  showDetails: (idea: Idea) => any
+}) => (
   <div className="ideas--entry">
     <img
       className="ideas--entry--picture entry--picture"
@@ -131,7 +132,15 @@ const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
     <div className="ideas--entry--content">
       <div className="ideas--entry--header">
         <span className="ideas--entry--title">
-          <a href={`/ideas/${props.idea.uuid}`}>{props.idea.title}</a>
+          <a
+            href={`/ideas/${props.idea.uuid}`}
+            onClick={e => {
+              e.preventDefault();
+              props.showDetails(props.idea);
+            }}
+          >
+            {props.idea.title}
+          </a>
         </span>
         <span className="ideas--entry--timestamp">
           {moment(props.idea.created).fromNow()}
@@ -174,6 +183,9 @@ const mapDispatchToProps: any = dispatch => {
     },
     toggleLike: (idea: Idea) => {
       dispatch({ type: "TOGGLE_LIKE_IDEA", data: { idea: idea } });
+    },
+    showDetails: (idea: Idea) => {
+      dispatch(push(`/ideas/${idea.uuid}`));
     }
   };
 };

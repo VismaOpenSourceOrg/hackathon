@@ -20,6 +20,7 @@ import { Route, Switch } from "react-router";
 import ConnectedHeaderComponent from "./components/header";
 import ConnectedUserComponent from "./components/user";
 import ConnectedIdeaComponent from "./components/idea";
+import ConnectedIdeaDetailsComponent from "./components/ideaDetails";
 
 import saga from "./store/saga";
 import reducer from "./store/reducer";
@@ -36,9 +37,12 @@ const store = createStore(
 sagaMiddleware.run(saga);
 
 const Index = () => (
-  <div>
-    <a href="/oauth2/authorization/google">
-      Sign in with your @visma.com e-mail address
+  <div className="login-page">
+    <a
+      href="/oauth2/authorization/google"
+      className="login-page--link th--button"
+    >
+      Log in
     </a>
   </div>
 );
@@ -52,7 +56,7 @@ const IdeasPage = () => (
 
 const IdeaDetailsPage = () => (
   <div>
-    <ConnectedIdeaComponent />
+    <ConnectedIdeaDetailsComponent />
   </div>
 );
 

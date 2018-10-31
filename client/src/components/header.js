@@ -8,7 +8,9 @@ import type { Idea } from "./idea";
 
 const HeaderComponent = (props: { auth: ?User }) => (
   <div className="header">
-    <span className="header--title">Hackathon</span>
+    <span className="header--title">
+      <a href="/">Hackathon</a>
+    </span>
     {props.auth && (
       <div className="header--auth">
         <span className="header--auth--email">{props.auth.email}</span>

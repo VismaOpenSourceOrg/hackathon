@@ -30,7 +30,7 @@ public class SuccessfulLoginInterceptor implements HandlerInterceptor {
 		User user = loginInfo.map(userService::getOrCreateUser)
 				.orElseThrow(() -> new SecurityException("Could not get logged in user"));
 
-		response.sendRedirect("/index.html");
+		response.sendRedirect("/");
 		return false;
 	}
 }
