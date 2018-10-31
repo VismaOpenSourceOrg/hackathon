@@ -21,7 +21,7 @@ export type Idea = {
 };
 
 const IdeaComponent = (props: {
-  ideas: Array<Idea>,
+  ideas?: Array<Idea>,
   createIdea: (string, string) => any,
   toggleLike: (idea: Idea) => any
 }) => (
@@ -31,7 +31,7 @@ const IdeaComponent = (props: {
 
       <IdeaCreator createIdea={props.createIdea} />
     </div>
-    {!props.ideas.length ? (
+    {!props.ideas || !props.ideas.length ? (
       ""
     ) : (
       <div className="box">

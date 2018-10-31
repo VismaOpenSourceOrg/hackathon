@@ -13,15 +13,14 @@ export type User = {
   created: string
 };
 
-const UserComponent = (props: { users: Array<User> }) => (
+const UserComponent = (props: { users?: Array<User> }) => (
   <div className="users box">
     <span className="users--header box--header box--header--underline">
       Registered users
     </span>
     <div className="users--list">
-      {props.users.map(user => (
-        <UserEntry key={user.uuid} user={user} />
-      ))}
+      {props.users &&
+        props.users.map(user => <UserEntry key={user.uuid} user={user} />)}
     </div>
   </div>
 );
