@@ -38,6 +38,17 @@ sagaMiddleware.run(saga);
 const Index = () => (
   <div>
     <ConnectedHeaderComponent />
+    <div>
+      <a href="/oauth2/authorization/google">
+        Sign in with your @visma.com e-mail address
+      </a>
+    </div>
+  </div>
+);
+
+const IdeasPage = () => (
+  <div>
+    <ConnectedHeaderComponent />
     <ConnectedIdeaComponent />
     <ConnectedUserComponent />
   </div>
@@ -50,7 +61,7 @@ if (element) {
       <ConnectedRouter history={history}>
         <Switch>
           <Route exact path="/" render={() => <Index />} />
-          <Route exact path="/ideas" render={() => <Index />} />
+          <Route exact path="/ideas" render={() => <IdeasPage />} />
           <Route render={() => <div>No such page</div>} />
         </Switch>
       </ConnectedRouter>

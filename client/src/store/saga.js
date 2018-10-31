@@ -1,6 +1,7 @@
 // @flow
 
 import { takeEvery, call, put, fork, select } from "redux-saga/effects";
+import { push } from "connected-react-router";
 
 import type { Idea } from "../components/idea";
 
@@ -13,11 +14,20 @@ function* fetchUsers(): * {
 }
 
 function* fetchAuth(): * {
-  const response = yield call(fetch, "/api/auth", {
-    credentials: "same-origin"
-  });
-  const data = yield call([response, response.json]);
-  yield put({ type: "AUTH_SUCCESS", data });
+  try {
+    const response = yield call(fetch, "/api/auth", {
+      credentials: "same-origin"
+    });
+    const data = yield call([response, response.json]);
+
+    yield put({ type: "AUTH_SUCCESS", data });
+  } catch (error) {
+    yield put({ type: "AUTH_FAILED", error });
+  }
+}
+
+function* authSuccess(): * {
+  yield put(push("/ideas"));
 }
 
 function* fetchIdeas(): * {
@@ -29,9 +39,7 @@ function* fetchIdeas(): * {
 }
 
 function* initialLoad(): * {
-  yield put({ type: "USERS_REQUESTED" });
   yield put({ type: "AUTH_REQUESTED" });
-  yield put({ type: "IDEAS_REQUESTED" });
 }
 
 function* createIdea(action: {
@@ -79,6 +87,26 @@ function* toggleLike(action: { type: string, data: { idea: Idea } }): * {
   yield put({ type: "IDEAS_REQUESTED", data }); // TODO update the list in LIKE_TOGGELED
 }
 
+type LocationType = {
+  hash: string,
+  pathname: string,
+  search: string,
+  state: any
+};
+
+function* routerChange({ action: string, location: LocationType }): * {
+  console.debug("Navigating to ", location.pathname);
+
+  switch (location.pathname) {
+    case "/ideas":
+      yield put({ type: "USERS_REQUESTED" });
+      yield put({ type: "IDEAS_REQUESTED" });
+      break;
+    default:
+      console.warn("Unhandled location ", location.pathname);
+  }
+}
+
 export default function*(): any {
   yield takeEvery("USERS_REQUESTED", fetchUsers);
   yield takeEvery("AUTH_REQUESTED", fetchAuth);
@@ -86,6 +114,10 @@ export default function*(): any {
 
   yield takeEvery("CREATE_IDEA", createIdea);
   yield takeEvery("TOGGLE_LIKE_IDEA", toggleLike);
+
+  yield takeEvery("AUTH_SUCCESS", authSuccess);
+
+  yield takeEvery("@@router/LOCATION_CHANGE", routerChange);
 
   yield fork(initialLoad);
 }
