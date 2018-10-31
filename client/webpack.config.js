@@ -6,6 +6,7 @@ module.exports = {
   entry: ["./src/index.js", "./sass/index.scss"],
   devtool: "source-map",
   devServer: {
+    historyApiFallback: true,
     proxy: [
       {
         context: ["/login", "/oauth-login-success", "/oauth2", "/api"],
