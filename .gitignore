@@ -1,7 +1,5 @@
 .idea/
 target
 *.iml
-node_modules
-src/main/resources/static/css
-src/main/resources/static/js
-src/main/resources/static/index.html
+client/node_modules
+src/main/resources/static

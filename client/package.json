@@ -19,6 +19,7 @@
     "@material-ui/icons": "^3.0.1",
     "babel-loader": "^8.0.2",
     "connected-react-router": "^4.5.0",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.0",
     "flow-bin": "^0.80.0",
     "flow-typed": "^2.5.1",
