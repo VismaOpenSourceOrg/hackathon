@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().hasAuthority("ROLE_USER")
 				.and()
 				.csrf().disable()
-				.oauth2Login()
+				.oauth2Login().loginPage("/oauth2/authorization/google")
 				.userInfoEndpoint().oidcUserService(customOidcUserService())
 				.and()
 				.defaultSuccessUrl("/oauth-login-success", true);
