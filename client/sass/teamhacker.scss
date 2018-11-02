@@ -112,6 +112,13 @@ body {
         padding-left: 15px;
         list-style-type: decimal;
     }
+    a {
+        color: $primaryColor;
+        &:hover, &:focus {
+            color: $primaryColorHover;
+            text-decoration: underline;
+        }
+    }
 }
 
 .th--button {
