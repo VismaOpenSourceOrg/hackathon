@@ -26,6 +26,10 @@ module.exports = {
       inject: "body",
       filename: "index.html"
     }),
+    new HtmlWebpackPlugin({
+      template: "./templates/logged-out.html",
+      filename: "logged-out.html"
+    }),
     new CopyWebpackPlugin(
       [
         {

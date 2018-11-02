@@ -3,8 +3,9 @@
 import type { User } from "./user";
 import React from "react";
 
+import ExitToApp from "@material-ui/icons/ExitToApp";
+
 import { connect } from "react-redux";
-import type { Idea } from "./idea";
 
 const HeaderComponent = (props: { auth: ?User }) => (
   <div className="header">
@@ -18,6 +19,11 @@ const HeaderComponent = (props: { auth: ?User }) => (
       <div className="header--auth">
         <span className="header--auth--email">{props.auth.email}</span>
         <img className="header--auth--picture" src={props.auth.pictureUrl} />
+        <span className="header--auth--logout">
+          <a href="/logout" title="Log out">
+            <ExitToApp />
+          </a>
+        </span>
       </div>
     )}
   </div>

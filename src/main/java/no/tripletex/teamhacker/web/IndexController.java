@@ -15,4 +15,9 @@ public class IndexController {
 		return "/index.html";
 	}
 
+	@RequestMapping("/logged-out")
+	public String loggedOutPage() {
+		return "/logged-out.html";
+	}
+
 }

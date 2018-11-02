@@ -36,6 +36,8 @@ body {
     max-height: 100px;
     display: flex;
     align-items: center;
+    font-size: 17px;
+    font-family: 'trebuche ms';
 }
 
 .header--auth--picture {
@@ -45,8 +47,10 @@ body {
 }
 
 .header--auth--email {
-    font-size: 17px;
-    font-family: 'trebuche ms';
+}
+
+.header--auth--logout {
+    margin-left: 15px;
 }
 
 .header--logo, .header--mascot {
