@@ -89,6 +89,12 @@ body {
 }
 
 .md {
+    p {
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
     strong{
         font-weight: bold;
     }
@@ -97,9 +103,6 @@ body {
     }
     code {
         font-family: monospace;
-    }
-    p {
-        margin-bottom: 15px;
     }
     ul {
         list-style: square;
