@@ -1,6 +1,7 @@
 package no.tripletex.teamhacker.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,10 +26,12 @@ public class Idea {
 
 	@NotEmpty
 	@NotNull
+	@Column(columnDefinition = "TEXT")
 	private String title;
 
 	@NotEmpty
 	@NotNull
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@ManyToOne
