@@ -37,6 +37,10 @@
     font-family: 'trebuche ms';
 }
 
+.header--logo, .header--mascot {
+    height: 100px;
+}
+
 .box--header {
     font-size: 1.7em;
     font-family: Palatino;
@@ -56,81 +60,11 @@
     display: inline-block;
 }
 
-.users--entry {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.users--entry--name {
-    font-size: 1.2em;
-    font-family: Georgia;
-}
-
 .entry--picture {
     width: 60px;
     height: 60px;
     border-radius: 60px;
     margin-right: 15px;
-}
-
-.ideas--entry {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-
-    font-family: Georgia;
-}
-.ideas--entry--content {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-.ideas--entry--header {
-    display: flex;
-    align-content: center;
-}
-.ideas--entry--title {
-    font-weight: bold;
-    font-size: 20px;
-    flex-grow: 1;
-}
-.ideas--entry--timestamp {
-    color: #003366b8;
-}
-.ideas--entry--description {
-    margin-top: 15px;
-}
-
-.ideas--creator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.ideas--creator--title {
-    font-size: 18px;
-    margin-top: 15px;
-}
-.ideas--creator--description {
-    font-size: 15px;
-    resize: vertical;
-    height: 150px;
-}
-
-
-.ideas--creator--title,
-.ideas--creator--description {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #eee;
-    outline: none;
-}
-
-.ideas--creator--create {
-    width: 100%;
 }
 
 .md {
@@ -143,10 +77,6 @@
     code {
         font-family: monospace;
     }
-}
-
-.ideas--entry--likes {
-    align-self: end;
 }
 
 .likes {
