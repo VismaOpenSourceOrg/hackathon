@@ -31,7 +31,8 @@ const IdeaComponent = (props: {
   createIdea: (string, string) => any,
   toggleLike: (idea: Idea) => any,
   showDetails: (idea: Idea) => any,
-  deleteIdea: (idea: Idea) => any
+  deleteIdea: (idea: Idea) => any,
+  editIdea: (idea: Idea) => any
 }) => (
   <div>
     <div className="ideas box">
@@ -56,6 +57,7 @@ const IdeaComponent = (props: {
               toggleLike={props.toggleLike}
               showDetails={props.showDetails}
               deleteIdea={props.deleteIdea}
+              editIdea={props.editIdea}
             />
           ))}
         </div>
@@ -134,7 +136,8 @@ const IdeaEntry = (props: {
   idea: Idea,
   toggleLike: (idea: Idea) => any,
   showDetails: (idea: Idea) => any,
-  deleteIdea: (idea: Idea) => any
+  deleteIdea: (idea: Idea) => any,
+  editIdea: (idea: Idea) => any
 }) => (
   <div className="ideas--entry">
     <div className="ideas--entry--author" title={props.idea.createdBy.fullName}>
@@ -150,7 +153,7 @@ const IdeaEntry = (props: {
           <span className="ideas--entry--edit">
             <Edit
               title="Edit idea"
-              onClick={() => props.showDetails(props.idea)}
+              onClick={() => props.editIdea(props.idea)}
             />
           </span>
           <span className="ideas--entry--delete">
@@ -224,6 +227,9 @@ const mapDispatchToProps: any = dispatch => {
     },
     showDetails: (idea: Idea) => {
       dispatch(push(`/ideas/${idea.uuid}`));
+    },
+    editIdea: (idea: Idea) => {
+      dispatch(push(`/ideas/${idea.uuid}/edit`));
     },
     deleteIdea: (idea: Idea) => {
       dispatch({ type: "DELETE_IDEA", data: { uuid: idea.uuid } });

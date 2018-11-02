@@ -6,71 +6,213 @@ import moment from "moment";
 import { connect } from "react-redux";
 
 import ReactMarkdown from "react-markdown";
-
-import Delete from "@material-ui/icons/Delete";
-
 import type { User } from "./people";
 
 import type { Idea } from "./idea";
 import { push } from "connected-react-router";
-import { joinNatural } from "../common/util";
+import { getUserInitials, joinNatural } from "../common/util";
+
+import Edit from "@material-ui/icons/Edit";
+import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
+import Delete from "@material-ui/icons/Delete";
+import Save from "@material-ui/icons/Save";
+import Cancel from "@material-ui/icons/Cancel";
 
 const LoadingInfo = () => <div>Loading ...</div>;
 
 const IdeaDetailsComponent = (props: {
   idea: ?Idea,
-  toggleLike: (idea: Idea) => any
+  auth: User,
+  editingIdea: boolean,
+  toggleLike: (idea: Idea) => any,
+  deleteIdea: (idea: Idea) => any,
+  editIdea: (idea: Idea) => any,
+  cancelEditing: (idea: Idea) => any,
+  updateIdea: (idea: Idea, title: string, description: string) => any
 }) => (
   <div>
     {!props.idea ? (
       <LoadingInfo />
     ) : (
-      <IdeaEntry idea={props.idea} toggleLike={props.toggleLike} />
+      <IdeaDetails
+        idea={props.idea}
+        auth={props.auth}
+        editingIdea={props.editingIdea}
+        toggleLike={props.toggleLike}
+        deleteIdea={props.deleteIdea}
+        editIdea={props.editIdea}
+        cancelEditing={props.cancelEditing}
+        updateIdea={props.updateIdea}
+      />
     )}
   </div>
 );
 
-const IdeaEntry = (props: { idea: Idea, toggleLike: (idea: Idea) => any }) => (
-  <div className="ideas--entry">
-    <img
-      className="ideas--entry--picture entry--picture"
-      src={props.idea.createdBy.pictureUrl}
-      title={props.idea.createdBy.fullName}
-    />
-    <div className="ideas--entry--content">
-      <div className="ideas--entry--header">
-        <span className="ideas--entry--title">{props.idea.title}</span>
-        <span className="ideas--entry--timestamp">
-          {moment(props.idea.created).fromNow()}
-        </span>
-      </div>
-      <span className="ideas--entry--description md">
-        <ReactMarkdown source={props.idea.description} />
-      </span>
-      <span
-        className="likes ideas--entry--likes"
-        onClick={() => props.toggleLike(props.idea)}
-      >
-        <ThumbUpSharp className="likes--icon" />
-        {props.idea.likes.length === 0 ? (
-          ""
-        ) : (
-          <span>
-            <span className="likes--count">{props.idea.likes.length}</span>
-            <span className="likes--names">
-              {joinNatural(props.idea.likes.map(user => user.firstName))} likes
-              this
+class IdeaDetails extends React.Component<
+  {
+    toggleLike: (idea: Idea) => any,
+    deleteIdea: (idea: Idea) => any,
+    editIdea: (idea: Idea) => any,
+    cancelEditing: (idea: Idea) => any,
+    updateIdea: (idea: Idea, title: string, description: string) => any,
+    idea: Idea,
+    auth: User,
+    editingIdea: boolean
+  },
+  { title: string, description: string }
+> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: props.idea.title,
+      description: props.idea.description
+    };
+  }
+
+  handleChange(event) {
+    this.setState({
+      ...this.state,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  render() {
+    const { props } = this;
+
+    return (
+      <div className="box">
+        <div className="ideas--entry">
+          <div
+            className="ideas--entry--author"
+            title={props.idea.createdBy.fullName}
+          >
+            <img
+              className="ideas--entry--picture entry--picture"
+              src={props.idea.createdBy.pictureUrl}
+            />
+            <span className="ideas--entry--initials">
+              {getUserInitials(props.idea.createdBy.fullName)}
             </span>
-          </span>
-        )}
-      </span>
-    </div>
-  </div>
-);
+            {props.idea.createdBy.uuid === props.auth.uuid &&
+              (props.editingIdea ? (
+                <span className="ideas--entry--actions">
+                  <span className="ideas--entry--save">
+                    <Save
+                      title="Save changes"
+                      onClick={() =>
+                        props.updateIdea(
+                          props.idea,
+                          this.state.title,
+                          this.state.description
+                        )
+                      }
+                    />
+                  </span>
+                  <span className="ideas--entry--cancel">
+                    <Cancel
+                      title="Discard changes"
+                      onClick={() =>
+                        confirm(
+                          "Discard changes to " + props.idea.title + "?"
+                        ) && props.cancelEditing(props.idea)
+                      }
+                    />
+                  </span>
+                </span>
+              ) : (
+                <span className="ideas--entry--actions">
+                  <span className="ideas--entry--edit">
+                    <Edit
+                      title="Edit idea"
+                      onClick={() => props.editIdea(props.idea)}
+                    />
+                  </span>
+                  <span className="ideas--entry--delete">
+                    <Delete
+                      title="Delete idea"
+                      onClick={() =>
+                        confirm("Delete " + props.idea.title + "?") &&
+                        props.deleteIdea(props.idea)
+                      }
+                    />
+                  </span>
+                </span>
+              ))}
+          </div>
+          <div className="ideas--entry--content">
+            <div className="ideas--entry--header">
+              <span className="ideas--entry--title">
+                {props.editingIdea ? (
+                  <div>
+                    <input
+                      className="ideas--creator--title"
+                      type="text"
+                      name="title"
+                      placeholder="Title"
+                      value={this.state.title}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </div>
+                ) : (
+                  props.idea.title
+                )}
+              </span>
+
+              <span className="ideas--entry--timestamp">
+                {moment(props.idea.created).fromNow()}
+              </span>
+            </div>
+            {props.editingIdea && (
+              <div className="ideas--entry--editor">
+                <textarea
+                  className="ideas--creator--description"
+                  name="description"
+                  placeholder="Description (markdown supported!)"
+                  value={this.state.description}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </div>
+            )}
+            <span className="ideas--entry--description md">
+              <ReactMarkdown
+                source={
+                  props.editingIdea
+                    ? this.state.description
+                    : props.idea.description
+                }
+              />
+            </span>
+            <span
+              className="likes ideas--entry--likes"
+              onClick={() => props.toggleLike(props.idea)}
+            >
+              <ThumbUpSharp className="likes--icon" />
+              {props.idea.likes.length === 0 ? (
+                ""
+              ) : (
+                <span>
+                  <span className="likes--count">
+                    {props.idea.likes.length}
+                  </span>
+                  <span className="likes--names">
+                    {joinNatural(props.idea.likes.map(user => user.firstName))}{" "}
+                    likes this
+                  </span>
+                </span>
+              )}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps: any = state => {
   return {
-    idea: state.idea
+    idea: state.idea,
+    auth: state.auth,
+    editingIdea: state.editingIdea
   };
 };
 
@@ -78,6 +220,21 @@ const mapDispatchToProps: any = dispatch => {
   return {
     toggleLike: (idea: Idea) => {
       dispatch({ type: "TOGGLE_LIKE_IDEA", data: { idea: idea } });
+    },
+    deleteIdea: (idea: Idea) => {
+      dispatch({ type: "DELETE_IDEA", data: { uuid: idea.uuid } });
+    },
+    editIdea: (idea: Idea) => {
+      dispatch(push(`/ideas/${idea.uuid}/edit`));
+    },
+    cancelEditing: (idea: Idea) => {
+      dispatch(push(`/ideas/${idea.uuid}`));
+    },
+    updateIdea: (idea: Idea, title: string, description: string) => {
+      dispatch({
+        type: "UPDATE_IDEA",
+        data: { uuid: idea.uuid, title, description }
+      });
     }
   };
 };

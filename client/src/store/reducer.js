@@ -7,14 +7,16 @@ type State = {
   +auth: ?User,
   +ideas: Array<Idea>,
   +idea: ?Idea,
-  +users: Array<User>
+  +users: Array<User>,
+  +editingIdea: boolean
 };
 
 const initialState: State = {
   auth: null,
   ideas: [],
   idea: null,
-  users: []
+  users: [],
+  editingIdea: false
 };
 
 function reducer(state: State = initialState, action: any) {
@@ -28,6 +30,12 @@ function reducer(state: State = initialState, action: any) {
       return { ...state, ideas: action.data };
     case "IDEA_SUCCESS":
       return { ...state, idea: action.data };
+    case "@@router/LOCATION_CHANGE":
+      if (/^\/ideas\/[^\/]+\/edit$/.test(action.payload.location.pathname)) {
+        return { ...state, editingIdea: true };
+      } else {
+        return { ...state, editingIdea: false };
+      }
     default:
       console.warn("Unhandled action", action.type);
       return state;
