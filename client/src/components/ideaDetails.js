@@ -4,12 +4,14 @@ import React from "react";
 import moment from "moment";
 
 import { connect } from "react-redux";
-
+import { push } from "connected-react-router";
 import ReactMarkdown from "react-markdown";
+
 import type { User } from "./people";
 
 import type { Idea } from "./idea";
-import { push } from "connected-react-router";
+import { hasWriteAccess } from "./idea";
+
 import { getUserInitials, joinNatural } from "../common/util";
 
 import Edit from "@material-ui/icons/Edit";
@@ -93,7 +95,7 @@ class IdeaDetails extends React.Component<
             <span className="ideas--entry--initials">
               {getUserInitials(props.idea.createdBy.fullName)}
             </span>
-            {props.idea.createdBy.uuid === props.auth.uuid &&
+            {hasWriteAccess(props.idea, props.auth) &&
               (props.editingIdea ? (
                 <span className="ideas--entry--actions">
                   <span className="ideas--entry--save">

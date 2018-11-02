@@ -25,6 +25,14 @@ export type Idea = {
   likes: Array<User>
 };
 
+export function hasWriteAccess(idea: Idea, auth: User) {
+  return (
+    idea.createdBy.uuid === auth.uuid ||
+    auth.roles.indexOf("MODERATOR") !== -1 ||
+    auth.roles.indexOf("ADMINISTRATOR") !== -1
+  );
+}
+
 const IdeaComponent = (props: {
   auth: User,
   ideas?: Array<Idea>,
@@ -148,7 +156,7 @@ const IdeaEntry = (props: {
       <span className="ideas--entry--initials">
         {getUserInitials(props.idea.createdBy.fullName)}
       </span>
-      {props.idea.createdBy.uuid === props.auth.uuid && (
+      {hasWriteAccess(props.idea, props.auth) && (
         <span className="ideas--entry--actions">
           <span className="ideas--entry--edit">
             <Edit
