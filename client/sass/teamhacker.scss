@@ -1,12 +1,17 @@
+@import './theme.scss';
 
 * {
     box-sizing: border-box;
 }
 
+body {
+    background-color: $mainBackground;
+}
+
 .header {
     padding: 5px 20px;
-    background-color: #7ec6c7;
-    color: white;
+    background-color: $headBackground;
+    color: $headColor;
     display: flex;
     font-family: monospace;
 }
@@ -50,13 +55,13 @@
     width: 90%;
     margin: 20px auto;
     padding: 15px;
-    background-color: #c3e2e3;
-    color: #003366;
+    background-color: $boxBackground;
+    color: $boxTextColor;
 }
 
 .box--header--underline {
     width: 100%;
-    border-bottom: 1px solid #003366cf;
+    border-bottom: 1px solid $boxTextColor;
     display: inline-block;
 }
 
@@ -79,26 +84,6 @@
     }
 }
 
-.likes {
-    margin-top: 5px;
-    font-family: georgia;
-}
-
-.likes--icon,
-.likes--count {
-    vertical-align: bottom;
-    cursor: pointer;
-}
-.likes--count {
-    margin-left: 3px;
-    margin-right: 5px;
-}
-.likes--names {
-    vertical-align: bottom;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .th--button {
     outline: none;
     border: none;
@@ -107,9 +92,9 @@
     font-family: Arial;
     font-weight: bold;
     color: white;
-    background-color: #0085ca;
-}
+    background-color: $primaryColor;
 
-.th--button:focus, .th--button:hover {
-    background-color: #026aa0;
+    &:focus, &:hover {
+        background-color: $primaryColorHover;
+    }
 }

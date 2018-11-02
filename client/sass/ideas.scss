@@ -1,3 +1,4 @@
+@import './theme.scss';
 
 .ideas--entry {
   display: flex;
@@ -21,7 +22,7 @@
   flex-grow: 1;
 }
 .ideas--entry--timestamp {
-  color: #003366b8;
+  color: $boxTextColorSecondary;
 }
 .ideas--entry--description {
   margin-top: 15px;
@@ -62,3 +63,28 @@
   align-self: end;
 }
 
+
+.likes {
+  margin-top: 10px;
+  font-family: georgia;
+}
+
+.likes .likes--icon {
+  font-size: 1em;
+}
+
+.likes--icon,
+.likes--count {
+  vertical-align: bottom;
+  cursor: pointer;
+}
+.likes--count {
+  margin-left: 3px;
+  margin-right: 5px;
+}
+.likes--names {
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: $boxTextColorSecondary;
+}
