@@ -72,6 +72,12 @@ public class AuthService {
 						.orElseThrow(() -> new RuntimeException("Could not find user in database")))
 				.get();
 	}
+	public Optional<User> getOptionalLoggedInUser() {
+		return getAuthorizationToken()
+				.map((auth) -> (String) auth.getPrincipal().getAttributes().get("email"))
+				.map(email -> userRepository.findUserByEmail(email)
+						.orElseThrow(() -> new RuntimeException("Could not find user in database")));
+	}
 
 
 }
