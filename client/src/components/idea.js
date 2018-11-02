@@ -10,6 +10,7 @@ import ReactMarkdown from "react-markdown";
 
 import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
 import Delete from "@material-ui/icons/Delete";
+import Edit from "@material-ui/icons/Edit";
 
 import type { User } from "./user";
 
@@ -144,6 +145,25 @@ const IdeaEntry = (props: {
       <span className="ideas--entry--initials">
         {getUserInitials(props.idea.createdBy.fullName)}
       </span>
+      {props.idea.createdBy.uuid === props.auth.uuid && (
+        <span className="ideas--entry--actions">
+          <span className="ideas--entry--edit">
+            <Edit
+              title="Edit idea"
+              onClick={() => props.showDetails(props.idea)}
+            />
+          </span>
+          <span className="ideas--entry--delete">
+            <Delete
+              title="Delete idea"
+              onClick={() =>
+                confirm("Delete " + props.idea.title + "?") &&
+                props.deleteIdea(props.idea)
+              }
+            />
+          </span>
+        </span>
+      )}
     </div>
     <div className="ideas--entry--content">
       <div className="ideas--entry--header">
@@ -158,17 +178,7 @@ const IdeaEntry = (props: {
             {props.idea.title}
           </a>
         </span>
-        {props.idea.createdBy.uuid === props.auth.uuid && (
-          <span className="ideas--entry--delete">
-            <Delete
-              title="Delete idea"
-              onClick={() =>
-                confirm("Delete " + props.idea.title + "?") &&
-                props.deleteIdea(props.idea)
-              }
-            />
-          </span>
-        )}
+
         <span className="ideas--entry--timestamp">
           {moment(props.idea.created).fromNow()}
         </span>
