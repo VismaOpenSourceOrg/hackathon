@@ -3,16 +3,23 @@ package no.tripletex.teamhacker.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity(name =  "HackUser")
@@ -39,6 +46,13 @@ public class User {
 
 	@NotNull
 	private ZonedDateTime created;
+
+	@ElementCollection(targetClass = HackerRole.class)
+	@CollectionTable(name = "hacker_roles", joinColumns = @JoinColumn(name = "hacker_role_id" ))
+	@NotNull
+	@Column(name = "hacker_role", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Set<HackerRole> roles = new HashSet<>();
 
 	public UUID getUuid() {
 		return uuid;
@@ -94,5 +108,17 @@ public class User {
 
 	public void setCreated(ZonedDateTime created) {
 		this.created = created;
+	}
+
+	public Set<HackerRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<HackerRole> roles) {
+		this.roles = roles;
+	}
+
+	public boolean hasRole(HackerRole role) {
+		return getRoles().contains(role);
 	}
 }
