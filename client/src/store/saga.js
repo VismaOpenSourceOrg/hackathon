@@ -89,6 +89,16 @@ function* createIdea(action: {
   yield put({ type: "IDEAS_REQUESTED", data }); // TODO do this in IDEA_CREATED
 }
 
+function* deleteIdea(action: { data: { uuid: string } }): * {
+  yield call(fetch, `/api/idea/${action.data.uuid}`, {
+    method: "delete",
+    credentials: "same-origin"
+  });
+
+  yield put({ type: "IDEA_DELETED", data: action.data.uuid });
+  yield put({ type: "IDEAS_REQUESTED" }); // TODO do this in IDEA_DELETED
+}
+
 function* toggleLike(action: { type: string, data: { idea: Idea } }): * {
   const state = yield select();
   const authUser = state.auth;
@@ -146,6 +156,7 @@ export default function*(): any {
   yield takeEvery("IDEA_REQUESTED", fetchIdea);
 
   yield takeEvery("CREATE_IDEA", createIdea);
+  yield takeEvery("DELETE_IDEA", deleteIdea);
   yield takeEvery("TOGGLE_LIKE_IDEA", toggleLike);
 
   yield takeEvery("AUTH_SUCCESS", authSuccess);

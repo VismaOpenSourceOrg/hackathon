@@ -9,6 +9,7 @@ import { push } from "connected-react-router";
 import ReactMarkdown from "react-markdown";
 
 import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
+import Delete from "@material-ui/icons/Delete";
 
 import type { User } from "./user";
 
@@ -24,10 +25,12 @@ export type Idea = {
 };
 
 const IdeaComponent = (props: {
+  auth: User,
   ideas?: Array<Idea>,
   createIdea: (string, string) => any,
   toggleLike: (idea: Idea) => any,
-  showDetails: (idea: Idea) => any
+  showDetails: (idea: Idea) => any,
+  deleteIdea: (idea: Idea) => any
 }) => (
   <div>
     <div className="ideas box">
@@ -46,10 +49,12 @@ const IdeaComponent = (props: {
         <div className="ideas--list">
           {props.ideas.map(idea => (
             <IdeaEntry
+              auth={props.auth}
               key={idea.uuid}
               idea={idea}
               toggleLike={props.toggleLike}
               showDetails={props.showDetails}
+              deleteIdea={props.deleteIdea}
             />
           ))}
         </div>
@@ -119,9 +124,11 @@ class IdeaCreator extends React.Component<
 }
 
 const IdeaEntry = (props: {
+  auth: User,
   idea: Idea,
   toggleLike: (idea: Idea) => any,
-  showDetails: (idea: Idea) => any
+  showDetails: (idea: Idea) => any,
+  deleteIdea: (idea: Idea) => any
 }) => (
   <div className="ideas--entry">
     <img
@@ -142,6 +149,16 @@ const IdeaEntry = (props: {
             {props.idea.title}
           </a>
         </span>
+        {props.idea.createdBy.uuid === props.auth.uuid && (
+          <span className="ideas--entry--delete">
+            <Delete
+              onClick={() =>
+                confirm("Delete " + props.idea.title + "?") &&
+                props.deleteIdea(props.idea)
+              }
+            />
+          </span>
+        )}
         <span className="ideas--entry--timestamp">
           {moment(props.idea.created).fromNow()}
         </span>
@@ -172,6 +189,7 @@ const IdeaEntry = (props: {
 
 const mapStateToProps: any = state => {
   return {
+    auth: state.auth,
     ideas: state.ideas
   };
 };
@@ -186,6 +204,9 @@ const mapDispatchToProps: any = dispatch => {
     },
     showDetails: (idea: Idea) => {
       dispatch(push(`/ideas/${idea.uuid}`));
+    },
+    deleteIdea: (idea: Idea) => {
+      dispatch({ type: "DELETE_IDEA", data: { uuid: idea.uuid } });
     }
   };
 };
