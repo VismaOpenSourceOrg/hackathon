@@ -1,5 +1,6 @@
 package no.tripletex.teamhacker.web;
 
+import no.tripletex.teamhacker.entity.HackerRole;
 import no.tripletex.teamhacker.entity.User;
 import no.tripletex.teamhacker.entity.Idea;
 import no.tripletex.teamhacker.repository.IdeaRepository;
@@ -55,6 +56,7 @@ public class IdeaController {
 	@PutMapping("/{uuid}")
 	public Idea update(@PathVariable UUID uuid, @RequestBody CreationDTO creationDTO) {
 		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		checkWriteAuthorization(idea);
 		idea.setTitle(creationDTO.getTitle());
 		idea.setDescription(creationDTO.description);
 		idea.setUpdated(ZonedDateTime.now());
@@ -65,7 +67,16 @@ public class IdeaController {
 	@DeleteMapping("/{uuid}")
 	public void delete(@PathVariable UUID uuid) {
 		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		checkWriteAuthorization(idea);
 		ideaRepository.delete(idea);
+	}
+
+	private void checkWriteAuthorization(Idea idea) {
+		User authUser = authService.getLoggedInUser();
+		if (idea.getCreatedBy().getUuid().equals(authUser.getUuid()) || authUser.hasRole(HackerRole.ADMINISTRATOR) || authUser.hasRole(HackerRole.MODERATOR)) {
+			return;
+		}
+		throw new SecurityException("Unauthorized write to idea " + idea.getUuid());
 	}
 
 	@PutMapping("{uuid}/like")
