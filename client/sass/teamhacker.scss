@@ -101,6 +101,14 @@ body {
     p {
         margin-bottom: 15px;
     }
+    ul {
+        list-style: square;
+        padding-left: 15px;
+    }
+    ol {
+        padding-left: 15px;
+        list-style-type: decimal;
+    }
 }
 
 .th--button {
