@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/logged-out").permitAll()
+				.antMatchers("/logged-out", "/health").permitAll()
 				.anyRequest().hasAuthority("ROLE_USER")
 				.and()
 				.csrf().disable()
