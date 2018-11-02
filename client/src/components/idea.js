@@ -152,6 +152,7 @@ const IdeaEntry = (props: {
         {props.idea.createdBy.uuid === props.auth.uuid && (
           <span className="ideas--entry--delete">
             <Delete
+              title="Delete idea"
               onClick={() =>
                 confirm("Delete " + props.idea.title + "?") &&
                 props.deleteIdea(props.idea)
