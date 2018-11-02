@@ -12,7 +12,7 @@ import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 
-import type { User } from "./user";
+import type { User } from "./people";
 
 import { joinNatural, getUserInitials } from "../common/util.js";
 

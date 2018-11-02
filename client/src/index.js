@@ -18,7 +18,7 @@ import {
 import { Route, Switch } from "react-router";
 
 import ConnectedHeaderComponent from "./components/header";
-import ConnectedUserComponent from "./components/user";
+import ConnectedPeopleComponent from "./components/people";
 import ConnectedIdeaComponent from "./components/idea";
 import ConnectedIdeaDetailsComponent from "./components/ideaDetails";
 
@@ -47,19 +47,6 @@ const Index = () => (
   </div>
 );
 
-const IdeasPage = () => (
-  <div>
-    <ConnectedIdeaComponent />
-    <ConnectedUserComponent />
-  </div>
-);
-
-const IdeaDetailsPage = () => (
-  <div>
-    <ConnectedIdeaDetailsComponent />
-  </div>
-);
-
 const element = document.getElementById("main");
 if (element) {
   ReactDOM.render(
@@ -69,8 +56,20 @@ if (element) {
         <ConnectedRouter history={history}>
           <Switch>
             <Route exact path="/" render={() => <Index />} />
-            <Route exact path="/ideas" render={() => <IdeasPage />} />
-            <Route path="/ideas/:id" render={() => <IdeaDetailsPage />} />
+            <Route
+              exact
+              path="/ideas"
+              render={() => <ConnectedIdeaComponent />}
+            />
+            <Route
+              exact
+              path="/people"
+              render={() => <ConnectedPeopleComponent />}
+            />
+            <Route
+              path="/ideas/:id"
+              render={() => <ConnectedIdeaDetailsComponent />}
+            />
             <Route render={() => <div>No such page</div>} />
           </Switch>
         </ConnectedRouter>

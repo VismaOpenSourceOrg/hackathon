@@ -8,7 +8,8 @@ public class IndexController {
 
 	@RequestMapping(path = {
 			"/",
-			"/ideas/**"
+			"/ideas/**",
+			"/people/**"
 	})
 	public String indexPage() {
 		// Routing is done in the frontend, so just redirect all requests to the base HTML page

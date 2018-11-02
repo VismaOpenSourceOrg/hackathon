@@ -14,10 +14,10 @@ export type User = {
   roles: Array<string>
 };
 
-const UserComponent = (props: { users?: Array<User> }) => (
+const PeopleComponent = (props: { users?: Array<User> }) => (
   <div className="users box">
     <span className="users--header box--header box--header--underline">
-      Registered users
+      People
     </span>
     <div className="users--list">
       {props.users &&
@@ -48,9 +48,9 @@ const mapDispatchToProps: any = dispatch => {
   return {};
 };
 
-const ConnectedUserComponent = connect(
+const ConnectedPeopleComponent = connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserComponent);
+)(PeopleComponent);
 
-export default ConnectedUserComponent;
+export default ConnectedPeopleComponent;

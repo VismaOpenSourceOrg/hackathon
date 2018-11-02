@@ -7,9 +7,9 @@ import { connect } from "react-redux";
 
 import ReactMarkdown from "react-markdown";
 
-import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
+import Delete from "@material-ui/icons/Delete";
 
-import type { User } from "./user";
+import type { User } from "./people";
 
 import type { Idea } from "./idea";
 import { push } from "connected-react-router";

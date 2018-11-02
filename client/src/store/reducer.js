@@ -1,6 +1,6 @@
 // @flow
 
-import type { User } from "../components/user";
+import type { User } from "../components/people";
 import type { Idea } from "../components/idea";
 
 type State = {

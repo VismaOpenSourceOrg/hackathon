@@ -137,8 +137,11 @@ function* routerChange(props: {
   console.debug("Navigating to ", pathname);
 
   if (pathname === "/ideas") {
-    yield put({ type: "USERS_REQUESTED" });
     yield put({ type: "IDEAS_REQUESTED" });
+    return;
+  }
+  if (pathname === "/people") {
+    yield put({ type: "USERS_REQUESTED" });
     return;
   }
 
