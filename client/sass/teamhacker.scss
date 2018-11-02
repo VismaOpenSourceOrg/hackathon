@@ -13,7 +13,8 @@ body {
     background-color: $headBackground;
     color: $headColor;
     display: flex;
-    font-family: monospace;
+    font-family: Helvetica;
+    align-items: center;
 }
 
 .header a:focus, .header a:hover {
@@ -21,8 +22,14 @@ body {
 }
 
 .header--title {
-    font-size: 3em;
+    font-size: 2em;
     flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header--title-text {
+    margin-left: 15px;
 }
 
 .header--auth {
@@ -43,7 +50,7 @@ body {
 }
 
 .header--logo, .header--mascot {
-    height: 100px;
+    height: 50px;
 }
 
 .box--header {

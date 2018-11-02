@@ -9,7 +9,10 @@ import type { Idea } from "./idea";
 const HeaderComponent = (props: { auth: ?User }) => (
   <div className="header">
     <span className="header--title">
-      <a href="/">Hackathon</a>
+      <img className="header--mascot" src="/images/raccoon.png" />
+      <a href="/" className="header--title-text">
+        Visma Hackathon
+      </a>
     </span>
     {props.auth && (
       <div className="header--auth">
