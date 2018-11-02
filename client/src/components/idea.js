@@ -118,6 +118,11 @@ class IdeaCreator extends React.Component<
         >
           Submit idea
         </button>
+        {this.state.description && (
+          <div className="ideas--creator--preview md">
+            <ReactMarkdown source={this.state.description} />
+          </div>
+        )}
       </div>
     );
   }

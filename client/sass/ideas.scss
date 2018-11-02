@@ -59,6 +59,16 @@
   width: 100%;
 }
 
+.ideas--creator--preview {
+  margin-top: 10px;
+  width: 100%;
+  color: $boxTextColorSecondary;
+
+  >div {
+    padding: 5px;
+  }
+}
+
 .ideas--entry--likes {
   align-self: end;
 }
