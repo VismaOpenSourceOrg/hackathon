@@ -13,7 +13,7 @@ import Delete from "@material-ui/icons/Delete";
 
 import type { User } from "./user";
 
-import { joinNatural } from "../common/util.js";
+import { joinNatural, getUserInitials } from "../common/util.js";
 
 export type Idea = {
   uuid: string,
@@ -136,11 +136,15 @@ const IdeaEntry = (props: {
   deleteIdea: (idea: Idea) => any
 }) => (
   <div className="ideas--entry">
-    <img
-      className="ideas--entry--picture entry--picture"
-      src={props.idea.createdBy.pictureUrl}
-      title={props.idea.createdBy.fullName}
-    />
+    <div className="ideas--entry--author" title={props.idea.createdBy.fullName}>
+      <img
+        className="ideas--entry--picture entry--picture"
+        src={props.idea.createdBy.pictureUrl}
+      />
+      <span className="ideas--entry--initials">
+        {getUserInitials(props.idea.createdBy.fullName)}
+      </span>
+    </div>
     <div className="ideas--entry--content">
       <div className="ideas--entry--header">
         <span className="ideas--entry--title">

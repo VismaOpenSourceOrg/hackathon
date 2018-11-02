@@ -28,6 +28,22 @@
   margin-top: 15px;
 }
 
+.ideas--entry--author {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+}
+
+.ideas--entry--initials {
+  display: inline-block;
+  margin-top: 5px;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.2em;
+  color: $boxTextColorSecondary;
+}
+
 .ideas--creator {
   display: flex;
   flex-direction: column;

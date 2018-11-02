@@ -7,3 +7,7 @@ export const joinNatural = (list: Array<any>) => {
   const firstParts = list.slice(0, -1).join(", ");
   return firstParts + " and " + list[list.length - 1];
 };
+
+export const getUserInitials = (name: string) => {
+  return name.replace(/[^A-ZÆØÅ]+/g, "");
+};
