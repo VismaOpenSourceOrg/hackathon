@@ -34,7 +34,7 @@ public class IdeaController {
 
 	@GetMapping
 	public Iterable<Idea> getIdeas() {
-		return ideaRepository.findAll();
+		return ideaRepository.findAllByOrderByCreatedDesc();
 	}
 
 	@GetMapping("/{uuid}")
