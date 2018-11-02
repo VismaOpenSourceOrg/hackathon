@@ -10,7 +10,8 @@ export type User = {
   fullName: string,
   email: string,
   pictureUrl: string,
-  created: string
+  created: string,
+  roles: Array<string>
 };
 
 const UserComponent = (props: { users?: Array<User> }) => (
