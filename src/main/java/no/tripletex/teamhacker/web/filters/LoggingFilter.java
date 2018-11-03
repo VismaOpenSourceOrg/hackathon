@@ -15,12 +15,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.UUID;
 
-@Component
 public class LoggingFilter implements Filter {
 
 	private static final Logger log = LoggerFactory.getLogger(LoggingFilter.class);
-
 
 	@Autowired
 	private AuthService authService;
@@ -32,11 +31,13 @@ public class LoggingFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try {
+			String requestId = UUID.randomUUID().toString();
 			authService.getOptionalLoggedInUser().ifPresent((auth) -> {
-				String mdcData = String.format("[ip:%s, email:%s] ", request.getRemoteAddr(), auth.getEmail());
+				String mdcData = String.format("[request:%s, email:%s] ", requestId, auth.getEmail());
 				MDC.put("authInfo", mdcData);
 			});
-			log.info("Starting request for endpoint " + ((HttpServletRequest)request).getRequestURI());
+			HttpServletRequest hsr = (HttpServletRequest)request;
+			log.info("Request " + hsr.getMethod() + " " + hsr.getRequestURI());
 			chain.doFilter(request, response);
 		} finally {
 			MDC.clear();
