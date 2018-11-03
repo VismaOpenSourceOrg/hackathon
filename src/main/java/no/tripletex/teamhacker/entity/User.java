@@ -121,4 +121,19 @@ public class User {
 	public boolean hasRole(HackerRole role) {
 		return getRoles().contains(role);
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("User{");
+		sb.append("uuid=").append(uuid);
+		sb.append(", fullName='").append(fullName).append('\'');
+		sb.append(", firstName='").append(firstName).append('\'');
+		sb.append(", lastName='").append(lastName).append('\'');
+		sb.append(", pictureUrl='").append(pictureUrl).append('\'');
+		sb.append(", email='").append(email).append('\'');
+		sb.append(", created=").append(created);
+		sb.append(", roles=").append(roles);
+		sb.append('}');
+		return sb.toString();
+	}
 }

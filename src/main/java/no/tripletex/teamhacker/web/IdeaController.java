@@ -31,6 +31,9 @@ import java.util.UUID;
 @RequestMapping("/api/idea")
 public class IdeaController {
 
+	private static final Logger log = LoggerFactory.getLogger(IdeaController.class);
+
+
 	@Autowired
 	private IdeaRepository ideaRepository;
 
@@ -61,6 +64,7 @@ public class IdeaController {
 	public Idea create(@RequestBody CreationDTO creationDTO) {
 		User user = authService.getLoggedInUser();
 		Idea idea = ideaService.createIdea(creationDTO.getTitle(), creationDTO.getDescription(), user);
+		log.info("Created idea: " + idea.toFullString());
 		return idea;
 	}
 
@@ -72,6 +76,7 @@ public class IdeaController {
 		idea.setDescription(creationDTO.description);
 		idea.setUpdated(ZonedDateTime.now());
 		ideaRepository.save(idea);
+		log.info("Updated idea: " + idea.toFullString());
 		return idea;
 	}
 
@@ -80,6 +85,7 @@ public class IdeaController {
 		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
 		checkWriteAuthorization(idea);
 		ideaRepository.delete(idea);
+		log.info("Deleted idea: " + idea);
 	}
 
 	private void checkWriteAuthorization(Idea idea) {
@@ -92,26 +98,25 @@ public class IdeaController {
 
 	@PutMapping("{uuid}/like")
 	public Idea like(@PathVariable UUID uuid) {
-		User user = authService.getLoggedInUser();
-		Optional<Idea> ideaOptional = ideaRepository.findById(uuid);
-
-		return ideaOptional.map((idea) -> updateUserLike(user, idea, true))
-				.orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		return updateUserLike(uuid, true);
 	}
 
 	@PutMapping("{uuid}/unlike")
 	public Idea unlike(@PathVariable UUID uuid) {
-		User user = authService.getLoggedInUser();
-		Optional<Idea> ideaOptional = ideaRepository.findById(uuid);
-
-		return ideaOptional.map((idea) -> updateUserLike(user, idea, false))
-				.orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		return updateUserLike(uuid, false);
 	}
 
-	private Idea updateUserLike(User user, Idea idea, boolean liked) {
+	private Idea updateUserLike(UUID ideaId, boolean liked) {
+		User user = authService.getLoggedInUser();
+		Optional<Idea> ideaOptional = ideaRepository.findById(ideaId);
+
+		Idea idea = ideaOptional.orElseThrow(() -> new ObjectNotFoundException(ideaId, "Idea"));
+
 		Set<User> likes = idea.getLikes();
 		if (liked) likes.add(user);
 		else likes.remove(user);
+
+		log.info("Updated like status for idea " + idea + " to " + (liked ? "liked" : "not liked"));
 
 		return ideaRepository.save(idea);
 	}

@@ -115,4 +115,30 @@ public class Idea {
 	public void setLikes(Set<User> likes) {
 		this.likes = likes;
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Idea{");
+		sb.append("uuid=").append(uuid);
+		sb.append(", title='").append(title).append('\'');
+		sb.append(", createdBy=").append(createdBy.getEmail());
+		sb.append(", created=").append(created);
+		sb.append(", updated=").append(updated);
+		sb.append('}');
+		return sb.toString();
+	}
+
+
+	public String toFullString() {
+		final StringBuilder sb = new StringBuilder("Idea{");
+		sb.append("uuid=").append(uuid);
+		sb.append(", title='").append(title).append('\'');
+		sb.append(", description='").append(description).append('\'');
+		sb.append(", createdBy=").append(createdBy.getEmail());
+		sb.append(", created=").append(created);
+		sb.append(", updated=").append(updated);
+		sb.append('}');
+		return sb.toString();
+	}
+
 }
