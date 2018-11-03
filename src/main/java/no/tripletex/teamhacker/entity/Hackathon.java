@@ -2,6 +2,8 @@ package no.tripletex.teamhacker.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +30,8 @@ public class Hackathon {
 	private String description;
 
 	@NotNull
-	private HackathonStatus status = HackathonStatus.PENDING;
+	@Enumerated(EnumType.STRING)
+	private HackathonStatus status = HackathonStatus.INACTIVE;
 
 	@ManyToOne
 	private User createdBy;
@@ -92,5 +95,19 @@ public class Hackathon {
 
 	public void setUpdated(ZonedDateTime updated) {
 		this.updated = updated;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Hackathon{");
+		sb.append("uuid=").append(uuid);
+		sb.append(", title='").append(title).append('\'');
+		sb.append(", description='").append(description).append('\'');
+		sb.append(", status=").append(status);
+		sb.append(", createdBy=").append(createdBy);
+		sb.append(", created=").append(created);
+		sb.append(", updated=").append(updated);
+		sb.append('}');
+		return sb.toString();
 	}
 }

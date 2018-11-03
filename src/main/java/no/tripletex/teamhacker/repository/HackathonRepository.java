@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface HackathonRepository extends CrudRepository<Hackathon, UUID> {
 
-	List<HackathonStatus> findAllByStatus(HackathonStatus status);
+	List<Hackathon> findAllByStatus(HackathonStatus status);
 
-	Optional<HackathonStatus> findFirstByStatus(HackathonStatus status);
+	Optional<Hackathon> findFirstByStatus(HackathonStatus status);
 }
