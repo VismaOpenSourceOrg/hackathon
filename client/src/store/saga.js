@@ -64,6 +64,18 @@ function* fetchIdea(action: { uuid: string }): * {
   }
 }
 
+function* fetchComments(action: { uuid: string }): * {
+  try {
+    const response = yield call(fetch, `/api/idea/${action.uuid}/comments`, {
+      credentials: "same-origin"
+    });
+    const data = yield call([response, response.json]);
+    yield put({ type: "COMMENTS_SUCCESS", data });
+  } catch (error) {
+    yield put({ type: "COMMENTS_FAILURE", error });
+  }
+}
+
 function* initialLoad(): * {
   yield put({ type: "AUTH_REQUESTED" });
 }
@@ -181,6 +193,7 @@ function* routerChange(props: {
   if (m) {
     const uuid = m[1];
     yield put({ type: "IDEA_REQUESTED", uuid });
+    yield put({ type: "COMMENTS_REQUESTED", uuid });
   }
 }
 
@@ -189,6 +202,7 @@ export default function*(): any {
   yield takeEvery("AUTH_REQUESTED", fetchAuth);
   yield takeEvery("IDEAS_REQUESTED", fetchIdeas);
   yield takeEvery("IDEA_REQUESTED", fetchIdea);
+  yield takeEvery("COMMENTS_REQUESTED", fetchComments);
   yield takeEvery("ACTIVE_HACKATHON_REQUESTED", fetchActiveHackathon);
 
   yield takeEvery("CREATE_IDEA", createIdea);

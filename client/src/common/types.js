@@ -20,6 +20,14 @@ export type Idea = {
   likes: Array<User>
 };
 
+export type Comment = {
+  uuid: string,
+  idea: Idea,
+  content: string,
+  createdBy: User,
+  created: string
+};
+
 export type Hackathon = {
   uuid: string,
   title: string,

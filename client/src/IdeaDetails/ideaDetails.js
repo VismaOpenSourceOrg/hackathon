@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import ReactMarkdown from "react-markdown";
 
-import type { User, Idea } from "../common/types";
+import type { User, Idea, Comment } from "../common/types";
 
 import { hasIdeaWriteAccess } from "../common/auth";
 
@@ -24,6 +24,7 @@ const LoadingInfo = () => <div>Loading ...</div>;
 const IdeaDetailsComponent = (props: {
   idea: ?Idea,
   auth: User,
+  comments: ?Array<Comment>,
   editingIdea: boolean,
   toggleLike: (idea: Idea) => any,
   deleteIdea: (idea: Idea) => any,
@@ -38,6 +39,7 @@ const IdeaDetailsComponent = (props: {
       <IdeaDetails
         idea={props.idea}
         auth={props.auth}
+        comments={props.comments}
         editingIdea={props.editingIdea}
         toggleLike={props.toggleLike}
         deleteIdea={props.deleteIdea}
@@ -58,6 +60,7 @@ class IdeaDetails extends React.Component<
     updateIdea: (idea: Idea, title: string, description: string) => any,
     idea: Idea,
     auth: User,
+    comments: ?Array<Comment>,
     editingIdea: boolean
   },
   { title: string, description: string }
@@ -81,141 +84,154 @@ class IdeaDetails extends React.Component<
     const { props } = this;
 
     return (
-      <div className="box">
-        <div className="ideas--entry">
-          <div
-            className="ideas--entry--author"
-            title={props.idea.createdBy.fullName}
-          >
-            <img
-              className="ideas--entry--picture entry--picture"
-              src={props.idea.createdBy.pictureUrl}
-            />
-            <span className="ideas--entry--initials">
-              {getUserInitials(props.idea.createdBy.fullName)}
-            </span>
-            {hasIdeaWriteAccess(props.idea, props.auth) &&
-              (props.editingIdea ? (
-                <span className="ideas--entry--actions">
-                  <span className="ideas--entry--save">
-                    <Save
-                      title="Save changes"
-                      onClick={() =>
-                        props.updateIdea(
-                          props.idea,
-                          this.state.title,
-                          this.state.description
-                        )
-                      }
-                    />
+      <div>
+        <div className="box">
+          <div className="ideas--entry">
+            <div
+              className="ideas--entry--author"
+              title={props.idea.createdBy.fullName}
+            >
+              <img
+                className="ideas--entry--picture entry--picture"
+                src={props.idea.createdBy.pictureUrl}
+              />
+              <span className="ideas--entry--initials">
+                {getUserInitials(props.idea.createdBy.fullName)}
+              </span>
+              {hasIdeaWriteAccess(props.idea, props.auth) &&
+                (props.editingIdea ? (
+                  <span className="ideas--entry--actions">
+                    <span className="ideas--entry--save">
+                      <Save
+                        title="Save changes"
+                        onClick={() =>
+                          props.updateIdea(
+                            props.idea,
+                            this.state.title,
+                            this.state.description
+                          )
+                        }
+                      />
+                    </span>
+                    <span className="ideas--entry--cancel">
+                      <Cancel
+                        title="Discard changes"
+                        onClick={() =>
+                          confirm(
+                            "Discard changes to " + props.idea.title + "?"
+                          ) && props.cancelEditing(props.idea)
+                        }
+                      />
+                    </span>
                   </span>
-                  <span className="ideas--entry--cancel">
-                    <Cancel
-                      title="Discard changes"
-                      onClick={() =>
-                        confirm(
-                          "Discard changes to " + props.idea.title + "?"
-                        ) && props.cancelEditing(props.idea)
-                      }
-                    />
-                  </span>
-                </span>
-              ) : (
-                <span className="ideas--entry--actions">
-                  <span className="ideas--entry--edit">
-                    <Edit
-                      title="Edit idea"
-                      onClick={() => props.editIdea(props.idea)}
-                    />
-                  </span>
-                  <span className="ideas--entry--delete">
-                    <Delete
-                      title="Delete idea"
-                      onClick={() =>
-                        confirm("Delete " + props.idea.title + "?") &&
-                        props.deleteIdea(props.idea)
-                      }
-                    />
-                  </span>
-                </span>
-              ))}
-          </div>
-          <div className="ideas--entry--content">
-            <div className="ideas--entry--header">
-              <span className="ideas--entry--title">
-                {props.editingIdea ? (
-                  <div>
-                    <input
-                      className="ideas--creator--title"
-                      type="text"
-                      name="title"
-                      placeholder="Title"
-                      value={this.state.title}
-                      onChange={this.handleChange.bind(this)}
-                    />
-                  </div>
                 ) : (
-                  props.idea.title
+                  <span className="ideas--entry--actions">
+                    <span className="ideas--entry--edit">
+                      <Edit
+                        title="Edit idea"
+                        onClick={() => props.editIdea(props.idea)}
+                      />
+                    </span>
+                    <span className="ideas--entry--delete">
+                      <Delete
+                        title="Delete idea"
+                        onClick={() =>
+                          confirm("Delete " + props.idea.title + "?") &&
+                          props.deleteIdea(props.idea)
+                        }
+                      />
+                    </span>
+                  </span>
+                ))}
+            </div>
+            <div className="ideas--entry--content">
+              <div className="ideas--entry--header">
+                <span className="ideas--entry--title">
+                  {props.editingIdea ? (
+                    <div>
+                      <input
+                        className="ideas--creator--title"
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        value={this.state.title}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    </div>
+                  ) : (
+                    props.idea.title
+                  )}
+                </span>
+
+                <span
+                  className="ideas--entry--timestamp"
+                  title={moment(props.idea.created).format()}
+                >
+                  {moment(props.idea.created).fromNow()}
+                </span>
+              </div>
+              {props.editingIdea && (
+                <div className="ideas--entry--editor">
+                  <textarea
+                    className="ideas--creator--description"
+                    name="description"
+                    placeholder="Description (markdown supported!)"
+                    value={this.state.description}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </div>
+              )}
+              <span className="ideas--entry--description md">
+                <ReactMarkdown
+                  source={
+                    props.editingIdea
+                      ? this.state.description
+                      : props.idea.description
+                  }
+                />
+              </span>
+              <span
+                className="likes ideas--entry--likes"
+                onClick={() => props.toggleLike(props.idea)}
+              >
+                <ThumbUpSharp className="likes--icon" />
+                {props.idea.likes.length === 0 ? (
+                  ""
+                ) : (
+                  <span>
+                    <span className="likes--count">
+                      {props.idea.likes.length}
+                    </span>
+                    <span className="likes--names">
+                      {joinNatural(
+                        props.idea.likes.map(user => user.firstName)
+                      )}{" "}
+                      likes this
+                    </span>
+                  </span>
                 )}
               </span>
-
-              <span
-                className="ideas--entry--timestamp"
-                title={moment(props.idea.created).format()}
-              >
-                {moment(props.idea.created).fromNow()}
-              </span>
             </div>
-            {props.editingIdea && (
-              <div className="ideas--entry--editor">
-                <textarea
-                  className="ideas--creator--description"
-                  name="description"
-                  placeholder="Description (markdown supported!)"
-                  value={this.state.description}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </div>
-            )}
-            <span className="ideas--entry--description md">
-              <ReactMarkdown
-                source={
-                  props.editingIdea
-                    ? this.state.description
-                    : props.idea.description
-                }
-              />
-            </span>
-            <span
-              className="likes ideas--entry--likes"
-              onClick={() => props.toggleLike(props.idea)}
-            >
-              <ThumbUpSharp className="likes--icon" />
-              {props.idea.likes.length === 0 ? (
-                ""
-              ) : (
-                <span>
-                  <span className="likes--count">
-                    {props.idea.likes.length}
-                  </span>
-                  <span className="likes--names">
-                    {joinNatural(props.idea.likes.map(user => user.firstName))}{" "}
-                    likes this
-                  </span>
-                </span>
-              )}
-            </span>
           </div>
         </div>
+        {props.comments && <IdeaComments comments={props.comments} />}
       </div>
     );
   }
 }
 
+const IdeaComments = (props: { comments: Array<Comment> }) =>
+  props.comments.map(comment => (
+    <div className="box">
+      {comment.createdBy.firstName + " says: " + comment.content}
+    </div>
+  ));
+
 const mapStateToProps: any = state => {
   return {
     idea: state.idea,
     auth: state.auth,
+    comments: state.comments,
     editingIdea: state.editingIdea
   };
 };
