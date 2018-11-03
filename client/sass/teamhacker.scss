@@ -63,8 +63,11 @@ b {
     margin-left: 15px;
 }
 
-.header--logo, .header--mascot {
+.header--logo, .header--mascot, .header--balls {
     height: 50px;
+}
+.header--balls {
+    margin-left: 10px;
 }
 
 .box--header {

@@ -11,10 +11,11 @@ import type { User } from "../common/types";
 const HeaderComponent = (props: { auth: ?User }) => (
   <div className="header">
     <span className="header--title">
-      <img className="header--mascot" src="/images/raccoon.png" />
+      <img className="header--mascot" src="/images/raccoon-small.png" />
       <a href="/" className="header--title-text">
         Visma Hackathon
       </a>
+      <img className="header--balls" src="/images/logo-balls-small.png" />
     </span>
     {props.auth && (
       <div className="header--auth">
