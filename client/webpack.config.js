@@ -2,6 +2,7 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const SriPlugin = require("webpack-subresource-integrity");
 
 module.exports = {
   entry: ["./src/index.js", "./sass/index.scss"],
@@ -18,7 +19,8 @@ module.exports = {
   output: {
     filename: "js/[name].js",
     publicPath: "/",
-    path: path.resolve(__dirname, "../src/main/resources/static")
+    path: path.resolve(__dirname, "../src/main/resources/static"),
+    crossOriginLoading: "anonymous"
   },
   optimization: {
     splitChunks: {
@@ -36,6 +38,9 @@ module.exports = {
       template: "./templates/logged-out.html",
       filename: "logged-out.html",
       hash: true
+    }),
+    new SriPlugin({
+      hashFuncNames: ["sha256", "sha384"]
     }),
     new CopyWebpackPlugin(
       [
