@@ -1,5 +1,6 @@
 package no.tripletex.teamhacker.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,14 @@ public class Hackathon {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID uuid;
 
+	@NotNull
 	@NotEmpty
 	private String title;
+
+	@NotNull
+	@NotEmpty
+	@Column(columnDefinition = "TEXT")
+	private String description;
 
 	@NotNull
 	private HackathonStatus status = HackathonStatus.PENDING;
@@ -45,6 +52,14 @@ public class Hackathon {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public HackathonStatus getStatus() {
