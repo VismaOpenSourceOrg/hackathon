@@ -3,16 +3,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-export type User = {
-  uuid: string,
-  firstName: string,
-  lastName: string,
-  fullName: string,
-  email: string,
-  pictureUrl: string,
-  created: string,
-  roles: Array<string>
-};
+import type { User, Idea } from "../common/types";
 
 const PeopleComponent = (props: { users?: Array<User> }) => (
   <div className="users box">

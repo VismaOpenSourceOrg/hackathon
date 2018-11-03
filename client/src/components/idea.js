@@ -12,18 +12,9 @@ import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 
-import type { User } from "./people";
+import type { User, Idea } from "../common/types";
 
 import { joinNatural, getUserInitials } from "../common/util.js";
-
-export type Idea = {
-  uuid: string,
-  title: string,
-  description: string,
-  createdBy: User,
-  created: string,
-  likes: Array<User>
-};
 
 export function hasWriteAccess(idea: Idea, auth: User) {
   return (

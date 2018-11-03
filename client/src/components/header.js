@@ -1,13 +1,14 @@
 // @flow
 
-import type { People } from "./user";
 import React from "react";
 
 import ExitToApp from "@material-ui/icons/ExitToApp";
 
 import { connect } from "react-redux";
 
-const HeaderComponent = (props: { auth: ?People }) => (
+import type { User } from "../common/types";
+
+const HeaderComponent = (props: { auth: ?User }) => (
   <div className="header">
     <span className="header--title">
       <img className="header--mascot" src="/images/raccoon.png" />

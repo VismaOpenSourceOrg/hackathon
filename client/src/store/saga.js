@@ -3,7 +3,7 @@
 import { takeEvery, call, put, fork, select } from "redux-saga/effects";
 import { push } from "connected-react-router";
 
-import type { Idea } from "../components/idea";
+import type { Idea } from "../common/types";
 
 function* fetchUsers(): * {
   const response = yield call(fetch, "/api/user", {

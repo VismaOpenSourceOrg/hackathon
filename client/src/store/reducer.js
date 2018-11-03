@@ -1,7 +1,6 @@
 // @flow
 
-import type { User } from "../components/people";
-import type { Idea } from "../components/idea";
+import type { User, Idea } from "../common/types";
 
 type State = {
   +auth: ?User,

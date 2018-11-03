@@ -7,9 +7,8 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 import ReactMarkdown from "react-markdown";
 
-import type { User } from "./people";
+import type { User, Idea } from "../common/types";
 
-import type { Idea } from "./idea";
 import { hasWriteAccess } from "./idea";
 
 import { getUserInitials, joinNatural } from "../common/util";
