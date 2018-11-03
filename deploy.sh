@@ -3,7 +3,7 @@
 set -eo
 
 pushd client
-webpack --mode=production
+webpack --optimize-minimize --mode=production
 popd
 mvn package -DskipTests=true
 docker build -t 455710622635.dkr.ecr.eu-west-1.amazonaws.com/hackaton .

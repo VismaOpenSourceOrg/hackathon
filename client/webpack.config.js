@@ -20,15 +20,22 @@ module.exports = {
     publicPath: "/",
     path: path.resolve(__dirname, "../src/main/resources/static")
   },
+  optimization: {
+    splitChunks: {
+      chunks: "all"
+    }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./templates/index.html",
       inject: "body",
-      filename: "index.html"
+      filename: "index.html",
+      hash: true
     }),
     new HtmlWebpackPlugin({
       template: "./templates/logged-out.html",
-      filename: "logged-out.html"
+      filename: "logged-out.html",
+      hash: true
     }),
     new CopyWebpackPlugin(
       [
