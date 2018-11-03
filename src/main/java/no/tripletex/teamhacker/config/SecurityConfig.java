@@ -17,11 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/logged-out", "/health", "/csp-report").permitAll()
+				.antMatchers("/logged-out", "/health", "/csp-report", "/js/**", "/css/**", "/images/**").permitAll()
 				.anyRequest().hasAuthority("ROLE_USER")
 				.and()
 				.csrf().disable()
 				.oauth2Login().loginPage("/oauth2/authorization/google")
+				.failureUrl("/login-error")
 				.userInfoEndpoint().oidcUserService(customOidcUserService())
 				.and()
 				.defaultSuccessUrl("/oauth-login-success", true)

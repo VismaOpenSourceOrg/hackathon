@@ -38,7 +38,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./templates/logged-out.html",
       filename: "logged-out.html",
-      hash: true
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: "./templates/login-error.html",
+      filename: "login-error.html",
+      inject: false
     }),
     new SriPlugin({
       hashFuncNames: ["sha256", "sha384"]
