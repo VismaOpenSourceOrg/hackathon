@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 
 import type { User, Idea } from "../common/types";
 
-import { hasWriteAccess } from "./idea";
+import { hasIdeaWriteAccess } from "../common/auth";
 
 import { getUserInitials, joinNatural } from "../common/util";
 
@@ -94,7 +94,7 @@ class IdeaDetails extends React.Component<
             <span className="ideas--entry--initials">
               {getUserInitials(props.idea.createdBy.fullName)}
             </span>
-            {hasWriteAccess(props.idea, props.auth) &&
+            {hasIdeaWriteAccess(props.idea, props.auth) &&
               (props.editingIdea ? (
                 <span className="ideas--entry--actions">
                   <span className="ideas--entry--save">

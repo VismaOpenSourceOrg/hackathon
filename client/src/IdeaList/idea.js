@@ -14,15 +14,8 @@ import Edit from "@material-ui/icons/Edit";
 
 import type { User, Idea } from "../common/types";
 
-import { joinNatural, getUserInitials } from "../common/util.js";
-
-export function hasWriteAccess(idea: Idea, auth: User) {
-  return (
-    idea.createdBy.uuid === auth.uuid ||
-    auth.roles.indexOf("MODERATOR") !== -1 ||
-    auth.roles.indexOf("ADMINISTRATOR") !== -1
-  );
-}
+import { joinNatural, getUserInitials } from "../common/util";
+import { hasIdeaWriteAccess } from "../common/auth";
 
 const IdeaComponent = (props: {
   auth: User,
@@ -147,7 +140,7 @@ const IdeaEntry = (props: {
       <span className="ideas--entry--initials">
         {getUserInitials(props.idea.createdBy.fullName)}
       </span>
-      {hasWriteAccess(props.idea, props.auth) && (
+      {hasIdeaWriteAccess(props.idea, props.auth) && (
         <span className="ideas--entry--actions">
           <span className="ideas--entry--edit">
             <Edit

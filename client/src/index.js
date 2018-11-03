@@ -18,9 +18,9 @@ import {
 import { Route, Switch } from "react-router";
 
 import ConnectedHeaderComponent from "./components/header";
-import ConnectedPeopleComponent from "./components/people";
-import ConnectedIdeaComponent from "./components/idea";
-import ConnectedIdeaDetailsComponent from "./components/ideaDetails";
+import ConnectedPeopleComponent from "./PeopleList/people";
+import ConnectedIdeaComponent from "./IdeaList/idea";
+import ConnectedIdeaDetailsComponent from "./IdeaDetails/ideaDetails";
 
 import saga from "./store/saga";
 import reducer from "./store/reducer";
