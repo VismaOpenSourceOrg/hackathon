@@ -1,8 +1,10 @@
 package no.tripletex.teamhacker.web;
 
 import no.tripletex.teamhacker.entity.HackerRole;
+import no.tripletex.teamhacker.entity.IdeaComment;
 import no.tripletex.teamhacker.entity.User;
 import no.tripletex.teamhacker.entity.Idea;
+import no.tripletex.teamhacker.repository.IdeaCommentRepository;
 import no.tripletex.teamhacker.repository.IdeaRepository;
 import no.tripletex.teamhacker.repository.UserRepository;
 import no.tripletex.teamhacker.service.AuthService;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -42,6 +45,9 @@ public class IdeaController {
 
 	@Autowired
 	private IdeaService ideaService;
+
+	@Autowired
+	private IdeaCommentRepository ideaCommentRepository;
 
 	@Autowired
 	private AuthService authService;
@@ -87,6 +93,21 @@ public class IdeaController {
 		ideaRepository.delete(idea);
 		log.info("Deleted idea: " + idea);
 	}
+
+	@GetMapping("/{uuid}/comments")
+	public List<IdeaComment> getComments(@PathVariable UUID uuid) {
+		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		return ideaCommentRepository.findByIdeaOrderByCreated(idea);
+	}
+
+	@PostMapping("/{uuid}/comments")
+	public IdeaComment createComment(@PathVariable UUID uuid, @RequestBody CommentDTO body) {
+		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		IdeaComment comment = ideaService.createComment(idea, body.getContent(), authService.getLoggedInUser());
+		log.info("Created comment: " + comment);
+		return comment;
+	}
+
 
 	private void checkWriteAuthorization(Idea idea) {
 		User authUser = authService.getLoggedInUser();
@@ -140,6 +161,18 @@ public class IdeaController {
 
 		public void setDescription(String description) {
 			this.description = description;
+		}
+	}
+
+	static class CommentDTO {
+		private String content;
+
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
 		}
 	}
 
