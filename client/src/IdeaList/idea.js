@@ -12,14 +12,19 @@ import ThumbUpSharp from "@material-ui/icons/ThumbUpSharp";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 
-import type { User, Idea } from "../common/types";
+import type { User, Idea, Hackathon } from "../common/types";
 
 import { joinNatural, getUserInitials } from "../common/util";
 import { hasIdeaWriteAccess } from "../common/auth";
 
+function getHackathonDescription(hackathon: Hackathon) {
+  return { __html: hackathon.description };
+}
+
 const IdeaComponent = (props: {
   auth: User,
   ideas?: Array<Idea>,
+  activeHackathon: ?Hackathon,
   createIdea: (string, string) => any,
   toggleLike: (idea: Idea) => any,
   showDetails: (idea: Idea) => any,
@@ -27,9 +32,18 @@ const IdeaComponent = (props: {
   editIdea: (idea: Idea) => any
 }) => (
   <div>
-    <div className="ideas box">
-      <span className="ideas--header box--header">Submit your idea!</span>
-
+    {props.activeHackathon && (
+      <div className="box">
+        <span className="hackathon--title">{props.activeHackathon.title}</span>
+        <div
+          className="hackathon--description"
+          dangerouslySetInnerHTML={getHackathonDescription(
+            props.activeHackathon
+          )}
+        />
+      </div>
+    )}
+    <div className="box">
       <IdeaCreator createIdea={props.createIdea} />
     </div>
     {!props.ideas || !props.ideas.length ? (
@@ -208,7 +222,8 @@ const IdeaEntry = (props: {
 const mapStateToProps: any = state => {
   return {
     auth: state.auth,
-    ideas: state.ideas
+    ideas: state.ideas,
+    activeHackathon: state.activeHackathon
   };
 };
 

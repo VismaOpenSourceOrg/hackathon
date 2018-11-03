@@ -142,6 +142,19 @@ function* toggleLike(action: { type: string, data: { idea: Idea } }): * {
   yield put({ type: "IDEAS_REQUESTED", data }); // TODO update the list in LIKE_TOGGELED
 }
 
+function* fetchActiveHackathon(): * {
+  try {
+    const response = yield call(fetch, "/api/hackathon/active", {
+      credentials: "same-origin"
+    });
+    const data = yield call([response, response.json]);
+
+    yield put({ type: "ACTIVE_HACKATHON_SUCCESS", data });
+  } catch (error) {
+    yield put({ type: "ACTIVE_HACKATHON_FAILURE", error });
+  }
+}
+
 type LocationType = {
   hash: string,
   pathname: string,
@@ -157,6 +170,7 @@ function* routerChange(props: {
 
   if (pathname === "/ideas") {
     yield put({ type: "IDEAS_REQUESTED" });
+    yield put({ type: "ACTIVE_HACKATHON_REQUESTED" });
     return;
   }
   if (pathname === "/people") {
@@ -176,6 +190,7 @@ export default function*(): any {
   yield takeEvery("AUTH_REQUESTED", fetchAuth);
   yield takeEvery("IDEAS_REQUESTED", fetchIdeas);
   yield takeEvery("IDEA_REQUESTED", fetchIdea);
+  yield takeEvery("ACTIVE_HACKATHON_REQUESTED", fetchActiveHackathon);
 
   yield takeEvery("CREATE_IDEA", createIdea);
   yield takeEvery("DELETE_IDEA", deleteIdea);

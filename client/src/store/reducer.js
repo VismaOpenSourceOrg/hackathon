@@ -1,13 +1,14 @@
 // @flow
 
-import type { User, Idea } from "../common/types";
+import type { User, Idea, Hackathon } from "../common/types";
 
 type State = {
   +auth: ?User,
   +ideas: Array<Idea>,
   +idea: ?Idea,
   +users: Array<User>,
-  +editingIdea: boolean
+  +editingIdea: boolean,
+  +activeHackathon: ?Hackathon
 };
 
 const initialState: State = {
@@ -15,7 +16,8 @@ const initialState: State = {
   ideas: [],
   idea: null,
   users: [],
-  editingIdea: false
+  editingIdea: false,
+  activeHackathon: null
 };
 
 function reducer(state: State = initialState, action: any) {
@@ -29,6 +31,8 @@ function reducer(state: State = initialState, action: any) {
       return { ...state, ideas: action.data };
     case "IDEA_SUCCESS":
       return { ...state, idea: action.data };
+    case "ACTIVE_HACKATHON_SUCCESS":
+      return { ...state, activeHackathon: action.data };
     case "@@router/LOCATION_CHANGE":
       if (/^\/ideas\/[^\/]+\/edit$/.test(action.payload.location.pathname)) {
         return { ...state, editingIdea: true };

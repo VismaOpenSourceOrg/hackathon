@@ -19,3 +19,13 @@ export type Idea = {
   created: string,
   likes: Array<User>
 };
+
+export type Hackathon = {
+  uuid: string,
+  title: string,
+  description: string,
+  status: "ACTIVE" | "INACTIVE",
+  createdBy: User,
+  created: string,
+  updated: string
+};
