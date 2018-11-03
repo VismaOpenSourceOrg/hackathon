@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public FilterRegistrationBean loggingFilterRegistration(){
 		FilterRegistrationBean registration = new FilterRegistrationBean();
 		registration.setFilter(loggingFilter());
-		registration.addUrlPatterns("/api/*");
+		registration.addUrlPatterns("/api/*", "/csp-report");
 		registration.setName("loggingFilter");
 		registration.setOrder(1);
 		return registration;

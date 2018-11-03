@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/logged-out", "/health").permitAll()
+				.antMatchers("/logged-out", "/health", "/csp-report").permitAll()
 				.anyRequest().hasAuthority("ROLE_USER")
 				.and()
 				.csrf().disable()
@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.defaultSuccessUrl("/oauth-login-success", true)
 				.and()
-				.logout().logoutSuccessUrl("/logged-out");
+				.logout().logoutSuccessUrl("/logged-out")
+				.and()
+				.headers()
+				.contentSecurityPolicy("default-src 'self'; report-uri /csp-report");
 	}
 }
