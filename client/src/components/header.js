@@ -7,12 +7,20 @@ import ExitToApp from "@material-ui/icons/ExitToApp";
 import { connect } from "react-redux";
 
 import type { User } from "../common/types";
+import { push } from "connected-react-router";
 
-const HeaderComponent = (props: { auth: ?User }) => (
+const HeaderComponent = (props: { auth: ?User, goHome: () => any }) => (
   <div className="header">
     <span className="header--title">
       <img className="header--mascot" src="/images/raccoon-small.png" />
-      <a href="/" className="header--title-text">
+      <a
+        href="/"
+        onClick={e => {
+          e.preventDefault();
+          props.goHome();
+        }}
+        className="header--title-text"
+      >
         Visma Hackathon
       </a>
       <img className="header--balls" src="/images/logo-balls-small.png" />
@@ -38,7 +46,11 @@ const mapStateToProps: any = state => {
 };
 
 const mapDispatchToProps: any = dispatch => {
-  return {};
+  return {
+    goHome: () => {
+      dispatch(push(`/ideas`));
+    }
+  };
 };
 
 const ConnectedHeaderComponent = connect(
