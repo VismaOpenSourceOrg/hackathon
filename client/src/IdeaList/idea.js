@@ -34,7 +34,6 @@ const IdeaComponent = (props: {
   <div>
     {props.activeHackathon && (
       <div className="box">
-        <span className="hackathon--title">{props.activeHackathon.title}</span>
         <div
           className="hackathon--description"
           dangerouslySetInnerHTML={getHackathonDescription(
