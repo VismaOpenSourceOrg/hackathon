@@ -3,6 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const SriPlugin = require("webpack-subresource-integrity");
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 
 module.exports = {
   entry: ["./src/index.js", "./sass/index.scss"],
@@ -42,6 +43,7 @@ module.exports = {
     new SriPlugin({
       hashFuncNames: ["sha256", "sha384"]
     }),
+    new MomentLocalesPlugin(),
     new CopyWebpackPlugin(
       [
         {
