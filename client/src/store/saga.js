@@ -166,7 +166,6 @@ function* routerChange(props: {
   payload: { action: string, location: LocationType }
 }): * {
   const { pathname } = props.payload.location;
-  console.debug("Navigating to ", pathname);
 
   if (pathname === "/ideas") {
     yield put({ type: "IDEAS_REQUESTED" });

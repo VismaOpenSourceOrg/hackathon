@@ -21,7 +21,6 @@ const initialState: State = {
 };
 
 function reducer(state: State = initialState, action: any) {
-  console.log("Got action", action);
   switch (action.type) {
     case "USERS_SUCCESS":
       return { ...state, users: action.data };
@@ -40,7 +39,6 @@ function reducer(state: State = initialState, action: any) {
         return { ...state, editingIdea: false };
       }
     default:
-      console.warn("Unhandled action", action.type);
       return state;
   }
 }
