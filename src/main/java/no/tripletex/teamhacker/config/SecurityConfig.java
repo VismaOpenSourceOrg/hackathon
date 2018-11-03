@@ -1,20 +1,13 @@
 package no.tripletex.teamhacker.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
-import java.util.List;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 
 	@Bean
 	public CustomOidcUserService customOidcUserService() {
@@ -36,6 +29,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logout().logoutSuccessUrl("/logged-out")
 				.and()
 				.headers()
-				.contentSecurityPolicy("default-src 'self'; report-uri /csp-report");
+				.contentSecurityPolicy(getCsp());
+	}
+
+	private String getCsp() {
+		StringBuilder policy = new StringBuilder();
+		policy.append("default-src 'self'; ");
+
+		// Allow fonts from Material Icons
+		policy.append("style-src 'self' blob: 'unsafe-inline' https://fonts.googleapis.com; ");
+		policy.append("font-src 'self' https://fonts.gstatic.com; ");
+
+		// Allow Google avatars
+		policy.append("img-src 'self' https://*.googleusercontent.com; ");
+
+		policy.append("report-uri /csp-report;");
+
+		return policy.toString();
 	}
 }
