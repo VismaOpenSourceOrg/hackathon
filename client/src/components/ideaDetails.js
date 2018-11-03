@@ -160,7 +160,10 @@ class IdeaDetails extends React.Component<
                 )}
               </span>
 
-              <span className="ideas--entry--timestamp">
+              <span
+                className="ideas--entry--timestamp"
+                title={moment(props.idea.created).format()}
+              >
                 {moment(props.idea.created).fromNow()}
               </span>
             </div>
