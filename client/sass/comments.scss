@@ -1,0 +1,49 @@
+@import './theme.scss';
+
+.comment--author-picture {
+  width: 40px;
+  height: 40px;
+}
+
+.comment {
+  display: flex;
+}
+
+.comment--left {
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+}
+
+.comment--author-picture {
+  align-self: start;
+}
+
+.comment--main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.comment--header {
+  display: flex;
+}
+
+.comment--author-name {
+  flex-grow: 1;
+  font-weight: bold;
+  font-family: Helvetica;
+}
+
+.comment--created-date {
+  color: $boxTextColorSecondary;
+}
+
+.comment--content {
+  p {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+}

@@ -221,11 +221,34 @@ class IdeaDetails extends React.Component<
 }
 
 const IdeaComments = (props: { comments: Array<Comment> }) =>
-  props.comments.map(comment => (
-    <div className="box">
-      {comment.createdBy.firstName + " says: " + comment.content}
+  props.comments.map(comment => <IdeaComment comment={comment} />);
+
+const IdeaComment = (props: { comment: Comment }) => (
+  <div className="box comment">
+    <div className="comment--left">
+      <img
+        className="comment--author-picture entry--picture"
+        src={props.comment.createdBy.pictureUrl}
+      />
     </div>
-  ));
+    <div className="comment--main">
+      <div className="comment--header">
+        <span className="comment--author-name">
+          {props.comment.createdBy.fullName}
+        </span>
+        <span
+          className="comment--created-date"
+          title={moment(props.comment.created).format()}
+        >
+          {moment(props.comment.created).fromNow()}
+        </span>
+      </div>
+      <div className="comment--content md">
+        <ReactMarkdown source={props.comment.content} />
+      </div>
+    </div>
+  </div>
+);
 
 const mapStateToProps: any = state => {
   return {
