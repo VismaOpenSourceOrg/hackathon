@@ -154,6 +154,26 @@ function* toggleLike(action: { type: string, data: { idea: Idea } }): * {
   yield put({ type: "IDEAS_REQUESTED", data }); // TODO update the list in LIKE_TOGGELED
 }
 
+function* addIdeaComment(action: { data: { idea: Idea, content: string } }): * {
+  const response = yield call(
+    fetch,
+    `/api/idea/${action.data.idea.uuid}/comments`,
+    {
+      method: "post",
+      headers: {
+        "content-type": "application/json"
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        content: action.data.content
+      })
+    }
+  );
+  const data = yield call([response, response.json]);
+  yield put({ type: "COMMENT_CREATED", data });
+  yield put({ type: "COMMENTS_REQUESTED", uuid: action.data.idea.uuid });
+}
+
 function* fetchActiveHackathon(): * {
   try {
     const response = yield call(fetch, "/api/hackathon/active", {
@@ -209,6 +229,7 @@ export default function*(): any {
   yield takeEvery("DELETE_IDEA", deleteIdea);
   yield takeEvery("UPDATE_IDEA", updateIdea);
   yield takeEvery("TOGGLE_LIKE_IDEA", toggleLike);
+  yield takeEvery("ADD_IDEA_COMMENT", addIdeaComment);
 
   yield takeEvery("AUTH_SUCCESS", authSuccess);
   yield takeEvery("AUTH_FAILURE", authFailure);

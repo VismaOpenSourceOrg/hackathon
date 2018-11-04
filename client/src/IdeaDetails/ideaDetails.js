@@ -25,6 +25,7 @@ const IdeaDetailsComponent = (props: {
   idea: ?Idea,
   auth: User,
   comments: ?Array<Comment>,
+  addComment: (content: string, idea: Idea) => any,
   editingIdea: boolean,
   toggleLike: (idea: Idea) => any,
   deleteIdea: (idea: Idea) => any,
@@ -40,6 +41,9 @@ const IdeaDetailsComponent = (props: {
         idea={props.idea}
         auth={props.auth}
         comments={props.comments}
+        addComment={content =>
+          props.idea && props.addComment(content, props.idea)
+        }
         editingIdea={props.editingIdea}
         toggleLike={props.toggleLike}
         deleteIdea={props.deleteIdea}
@@ -58,6 +62,7 @@ class IdeaDetails extends React.Component<
     editIdea: (idea: Idea) => any,
     cancelEditing: (idea: Idea) => any,
     updateIdea: (idea: Idea, title: string, description: string) => any,
+    addComment: (content: string) => any,
     idea: Idea,
     auth: User,
     comments: ?Array<Comment>,
@@ -214,14 +219,94 @@ class IdeaDetails extends React.Component<
             </div>
           </div>
         </div>
-        {props.comments && <IdeaComments comments={props.comments} />}
+        {props.comments && (
+          <IdeaComments
+            auth={props.auth}
+            idea={props.idea}
+            comments={props.comments}
+            addComment={props.addComment}
+          />
+        )}
       </div>
     );
   }
 }
 
-const IdeaComments = (props: { comments: Array<Comment> }) =>
-  props.comments.map(comment => <IdeaComment comment={comment} />);
+const IdeaComments = (props: {
+  comments: Array<Comment>,
+  auth: User,
+  idea: Idea,
+  addComment: (content: string) => any
+}) => (
+  <div className="idea-comments">
+    {props.comments.map(comment => (
+      <IdeaComment key={comment.uuid} comment={comment} />
+    ))}
+
+    <div className="idea-comments--creator box comment">
+      <div className="comment--left">
+        <img
+          className="comment--author-picture entry--picture"
+          src={props.auth.pictureUrl}
+        />
+      </div>
+      <CommentCreator submitComment={props.addComment} />
+    </div>
+  </div>
+);
+
+class CommentCreator extends React.Component<
+  {
+    content?: string,
+    submitComment: (content: string) => any
+  },
+  {
+    content: string
+  }
+> {
+  constructor(props) {
+    super(props);
+    this.state = { content: props.content || "" };
+  }
+
+  handleChange(event) {
+    this.setState({
+      ...this.state,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  submitComment() {
+    const content = this.state.content.trim();
+    if (!content) return;
+    this.props.submitComment(content);
+    this.setState({ content: "" });
+  }
+
+  render() {
+    return (
+      <div className="comment--main">
+        <div className="comment--content">
+          <textarea
+            name="content"
+            value={this.state.content}
+            onChange={this.handleChange.bind(this)}
+            className="comment-creator--text"
+            placeholder="Add a comment"
+          />
+        </div>
+        <div className="comment--footer">
+          <button
+            className="comment--post-button th--button--small"
+            onClick={this.submitComment.bind(this)}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
 
 const IdeaComment = (props: { comment: Comment }) => (
   <div className="box comment">
@@ -278,6 +363,9 @@ const mapDispatchToProps: any = dispatch => {
         type: "UPDATE_IDEA",
         data: { uuid: idea.uuid, title, description }
       });
+    },
+    addComment: (content: string, idea: Idea) => {
+      dispatch({ type: "ADD_IDEA_COMMENT", data: { idea, content } });
     }
   };
 };

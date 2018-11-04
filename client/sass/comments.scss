@@ -47,3 +47,20 @@
     margin-inline-end: 0px;
   }
 }
+
+.comment--footer {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 5px;
+}
+
+.comment-creator--text {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  outline: none;
+  font-size: 15px;
+  resize: vertical;
+  height: 50px;
+}
