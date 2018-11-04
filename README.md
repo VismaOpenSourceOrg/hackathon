@@ -1,12 +1,13 @@
-# Teamhacker – Visma Hackathon Manager
+# Visma Hackathon Manager
 
-Teamhacker is a simple application used to register and manage hackathons.
+Visma Hackathon is a simple application used to register and manage hackathons.
 
 ### Features
 
 * Sign in using Google OAuth2
 * Register ideas
 * Like/unlike ideas
+* Comment on ideas
 
 
 ### Configuration
