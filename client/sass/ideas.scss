@@ -20,6 +20,12 @@
   font-weight: bold;
   font-size: 20px;
   flex-grow: 1;
+  color: $primaryColor;
+
+  &:hover, &:focus {
+    color: $primaryColorHover;
+    text-decoration: underline;
+  }
 }
 .ideas--entry--timestamp {
   color: $boxTextColorSecondary;
