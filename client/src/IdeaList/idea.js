@@ -48,11 +48,10 @@ const IdeaComponent = (props: {
     {!props.ideas || !props.ideas.length ? (
       ""
     ) : (
-      <div className="box">
-        <span className="ideas--header box--header box--header--underline">
-          Submitted ideas
-        </span>
-
+      <div>
+        <div className="boxish">
+          <span className="ideas--header box--header">Submitted ideas</span>
+        </div>
         <div className="ideas--list">
           {props.ideas.map(idea => (
             <IdeaEntry
@@ -148,7 +147,7 @@ const IdeaEntry = (props: {
   deleteIdea: (idea: Idea) => any,
   editIdea: (idea: Idea) => any
 }) => (
-  <div className="ideas--entry">
+  <div className="ideas--entry box">
     <div className="ideas--entry--author" title={props.idea.createdBy.fullName}>
       <img
         className="ideas--entry--picture entry--picture"

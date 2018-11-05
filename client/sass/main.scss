@@ -76,11 +76,18 @@ b {
 }
 
 .box {
+    background-color: $boxBackground;
+    color: $boxTextColor;
+}
+
+.boxish, .box {
     width: 90%;
     margin: 20px auto;
     padding: 15px;
-    background-color: $boxBackground;
-    color: $boxTextColor;
+}
+
+.boxish {
+    padding: 0;
 }
 
 .box--header--underline {
