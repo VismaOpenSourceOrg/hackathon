@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -58,7 +59,10 @@ public class IdeaController {
 			User user = userRepository.findUserByEmail(createdBy).orElseThrow(() -> new ObjectNotFoundException(createdBy, "User" ));
 			return ideaRepository.findAllByCreatedByOrderByCreatedDesc(user);
 		}
-		return ideaRepository.findAllByOrderByCreatedDesc();
+		List<Idea> ideas = new ArrayList<>(ideaRepository.findAllByOrderByCreatedDesc());
+		ideas.forEach(idea -> idea.setNumberOfComments(ideaCommentRepository.countIdeaCommentsByIdea(idea)));
+
+		return ideas;
 	}
 
 	@GetMapping("/{uuid}")

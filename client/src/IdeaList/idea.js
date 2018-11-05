@@ -136,6 +136,10 @@ class IdeaCreator extends React.Component<
   }
 }
 
+function pluralize(count: number, word: string) {
+  return String(count) + " " + (count === 1 ? word : word + "s");
+}
+
 const IdeaEntry = (props: {
   auth: User,
   idea: Idea,
@@ -197,23 +201,38 @@ const IdeaEntry = (props: {
       <span className="ideas--entry--description md">
         <ReactMarkdown source={props.idea.description} />
       </span>
-      <span
-        className="likes ideas--entry--likes"
-        onClick={() => props.toggleLike(props.idea)}
-      >
-        <ThumbUpSharp className="likes--icon" />
-        {props.idea.likes.length === 0 ? (
-          ""
-        ) : (
-          <span>
-            <span className="likes--count">{props.idea.likes.length}</span>
-            <span className="likes--names">
-              {joinNatural(props.idea.likes.map(user => user.firstName))} likes
-              this
+      <div className="ideas--entry--footer">
+        <span
+          className="likes ideas--entry--likes"
+          onClick={() => props.toggleLike(props.idea)}
+        >
+          <ThumbUpSharp className="likes--icon" />
+          {props.idea.likes.length === 0 ? (
+            ""
+          ) : (
+            <span>
+              <span className="likes--count">{props.idea.likes.length}</span>
+              <span className="likes--names">
+                {joinNatural(props.idea.likes.map(user => user.firstName))}{" "}
+                likes this
+              </span>
             </span>
-          </span>
-        )}
-      </span>
+          )}
+        </span>
+        <span className="ideas--entry--comments">
+          <a
+            href={`/ideas/${props.idea.uuid}`}
+            onClick={e => {
+              e.preventDefault();
+              props.showDetails(props.idea);
+            }}
+          >
+            {props.idea.numberOfComments
+              ? pluralize(props.idea.numberOfComments, "comment")
+              : "No comments"}
+          </a>
+        </span>
+      </div>
     </div>
   </div>
 );

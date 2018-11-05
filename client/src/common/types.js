@@ -17,7 +17,8 @@ export type Idea = {
   description: string,
   createdBy: User,
   created: string,
-  likes: Array<User>
+  likes: Array<User>,
+  numberOfComments?: number
 };
 
 export type Comment = {

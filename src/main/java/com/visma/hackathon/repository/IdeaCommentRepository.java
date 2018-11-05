@@ -11,4 +11,6 @@ public interface IdeaCommentRepository extends CrudRepository<IdeaComment, UUID>
 
 	List<IdeaComment> findByIdeaOrderByCreated(Idea idea);
 
+	int countIdeaCommentsByIdea(Idea idea);
+
 }
