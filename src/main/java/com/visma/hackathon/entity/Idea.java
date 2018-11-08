@@ -1,5 +1,7 @@
 package com.visma.hackathon.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.CascadeType;
@@ -11,12 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -53,6 +58,10 @@ public class Idea {
 			})
 	@OrderBy("created")
 	private Set<User> likes = new HashSet<>();
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "idea")
+	@OrderBy("created")
+	private List<IdeaComment> comments = new ArrayList<>();
 
 
 	@Transient
@@ -123,6 +132,14 @@ public class Idea {
 		this.likes = likes;
 	}
 
+	@JsonIgnore
+	public List<IdeaComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<IdeaComment> comments) {
+		this.comments = comments;
+	}
 
 	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 	public int getNumberOfComments() {
