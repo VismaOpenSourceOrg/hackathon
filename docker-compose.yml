@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  hackathon_db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: hackathon
+      POSTGRES_USER: vismahackathon
+      POSTGRES_PASSWORD: hackathonpass
