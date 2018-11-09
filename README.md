@@ -5,6 +5,7 @@ Visma Hackathon is a simple application used to register and manage hackathons.
 ### Local environment
 
 You need a few things to be able to build and run the application locally:
+
 * `Java 8`
 * `Maven`
 * `Docker`
@@ -78,6 +79,7 @@ This will start up a separate server on [http://localhost:8080](http://localhost
 ### Configuration
 
 The following configuration properties are required to run the application:
+
 * `spring.datasource.url`
 * `spring.datasource.username`
 * `spring.datasource.password`
