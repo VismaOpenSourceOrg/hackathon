@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const SriPlugin = require("webpack-subresource-integrity");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 
+const BUILD_DATE = new Date();
+
 module.exports = {
   entry: ["./src/index.js", "./sass/index.scss"],
   devtool: "source-map",
@@ -33,7 +35,8 @@ module.exports = {
       template: "./templates/index.html",
       inject: "body",
       filename: "index.html",
-      hash: true
+      hash: true,
+      buildDate: BUILD_DATE
     }),
     new HtmlWebpackPlugin({
       template: "./templates/logged-out.html",
