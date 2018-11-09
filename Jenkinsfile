@@ -13,6 +13,7 @@ timestamps {
 
 
         stage('Push docker image') {
+            sh "eval `aws --region eu-west-1 ecr get-login --no-include-email`"
             def newContainer = docker.build "455710622635.dkr.ecr.eu-west-1.amazonaws.com/hackaton"
             newContainer.push()
         }
