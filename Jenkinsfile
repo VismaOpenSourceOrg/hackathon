@@ -11,12 +11,10 @@ timestamps {
             mvn 'package -DskipTests=true -Pnode'
         }
 
-        stage('Build image') {
-            sh 'docker build -t 455710622635.dkr.ecr.eu-west-1.amazonaws.com/hackaton .'
-        }
 
-        stage('Push image') {
-            sh 'docker push 455710622635.dkr.ecr.eu-west-1.amazonaws.com/hackaton'
+        stage('Push docker image') {
+            def newContainer = docker.build "455710622635.dkr.ecr.eu-west-1.amazonaws.com/hackaton"
+            newContainer.push()
         }
 
         stage('Cleanup') {
