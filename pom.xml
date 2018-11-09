@@ -81,5 +81,57 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>node</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.6</version>
+
+						<configuration>
+							<workingDirectory>client</workingDirectory>
+						</configuration>
+
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v10.13.0</nodeVersion>
+									<npmVersion>6.4.1</npmVersion>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>webpack build</id>
+								<goals>
+									<goal>webpack</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<srcdir>${basedir}/client</srcdir>
+									<arguments>--mode=production --optimize-minimize</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 
 </project>

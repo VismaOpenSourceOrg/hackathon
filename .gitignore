@@ -3,3 +3,4 @@ target
 *.iml
 client/node_modules
 src/main/resources/static
+node/
