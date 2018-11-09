@@ -30,7 +30,7 @@ export SPRING_APPLICATION_JSON='{
           "registration": {
             "google": {
               "client-id": GOOGLE_AUTH_ID,
-              "client-secret": GOOGLE_AUTH_SECRET_
+              "client-secret": GOOGLE_AUTH_SECRET
             }
           }
         }
