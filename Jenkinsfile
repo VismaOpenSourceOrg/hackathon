@@ -18,6 +18,10 @@ timestamps {
             newContainer.push()
         }
 
+        stage('Deploy') {
+            sh "aws --profile production ecs update-service --cluster public-service-ecs --service hackaton-service --force-new-deployment"
+        }
+
         stage('Cleanup') {
             step([$class: 'WsCleanup'])
         }
