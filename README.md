@@ -18,8 +18,6 @@ Once everything is installed, you can follow these steps:
 Set up a new OAuth2 application screen here:
 [https://console.cloud.google.com](https://console.cloud.google.com)
 
-Contact [Julian](mailto:julian.thrap-meyer@visma.com) if you need help setting this up.
-
 #### 2. Set up configuration
 
 Set the following environment variable, using valid credentials for Google OAuth2.
