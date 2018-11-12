@@ -10,3 +10,7 @@ services:
       POSTGRES_DB: hackathon
       POSTGRES_USER: vismahackathon
       POSTGRES_PASSWORD: hackathonpass
+  hackathon_redis:
+    image: redis
+    ports:
+      - 6379:6379

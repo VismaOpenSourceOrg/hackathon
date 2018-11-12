@@ -78,11 +78,17 @@ This will start up a separate server on [http://localhost:8080](http://localhost
 
 The following configuration properties are required to run the application:
 
-* `spring.datasource.url`
-* `spring.datasource.username`
-* `spring.datasource.password`
-* `spring.security.oauth2.client.registration.google.client-id`
-* `spring.security.oauth2.client.registration.google.client-secret`
+* Database:
+  * `spring.datasource.url`
+  * `spring.datasource.username`
+  * `spring.datasource.password`
+* Google OAuth2:
+  * `spring.security.oauth2.client.registration.google.client-id`
+  * `spring.security.oauth2.client.registration.google.client-secret`
+* Redis session store:
+  * `spring.redis.host`
+  * `spring.redis.password`
+  * `spring.redis.port`
 
 
 They may be configured using the environment variable `SPRING_APPLICATION_JSON` as such:
@@ -104,6 +110,13 @@ export SPRING_APPLICATION_JSON='{
             }
           }
         }
+      }
+    },
+    "spring": {
+      "redis": {
+        "host": REDIS_HOST,
+        "password": REDIS_PASSWORD,
+        "port": REDIS_PORT
       }
     }
   }
