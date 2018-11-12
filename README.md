@@ -16,7 +16,17 @@ Once everything is installed, you can follow these steps:
 #### 1. Create Google OAuth2
 
 Set up a new OAuth2 application screen here:
-[https://console.cloud.google.com](https://console.cloud.google.com)
+[https://console.cloud.google.com/apis/credentials/oauthclient/](https://console.cloud.google.com/apis/credentials/oauthclient/)
+
+1. Select "Web Application"
+2. **Name**: anything
+3. **Authorised JavaScript origins**:
+   * `http://localhost:8081`
+   * `http://localhost:8080` (if you're using `webpack-dev-server`)
+4. **Authorised redirect URIs**:
+   * `http://localhost:8081/login/oauth2/code/google`
+   * `http://localhost:8080/login/oauth2/code/google` (if you're using `webpack-dev-server`)
+5. Save, and take note of the **Client ID** and **Client secret**
 
 #### 2. Set up configuration
 
