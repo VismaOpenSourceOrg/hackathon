@@ -100,6 +100,11 @@ export SPRING_APPLICATION_JSON='{
       "username": DB_USERNAME,
       "password": DB_PASSWORD
     },
+    "redis": {
+      "host": REDIS_HOST,
+      "password": REDIS_PASSWORD,
+      "port": REDIS_PORT
+    },
     "security": {
       "oauth2": {
         "client": {
@@ -110,13 +115,6 @@ export SPRING_APPLICATION_JSON='{
             }
           }
         }
-      }
-    },
-    "spring": {
-      "redis": {
-        "host": REDIS_HOST,
-        "password": REDIS_PASSWORD,
-        "port": REDIS_PORT
       }
     }
   }
