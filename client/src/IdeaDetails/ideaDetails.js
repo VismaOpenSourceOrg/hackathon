@@ -31,7 +31,7 @@ const IdeaDetailsComponent = (props: {
   deleteIdea: (idea: Idea) => any,
   editIdea: (idea: Idea) => any,
   cancelEditing: (idea: Idea) => any,
-  updateIdea: (idea: Idea, title: string, description: string) => any
+  updateIdea: (idea: Idea, title: string, description: string, tags: string) => any
 }) => (
   <div>
     {!props.idea ? (
@@ -61,20 +61,21 @@ class IdeaDetails extends React.Component<
     deleteIdea: (idea: Idea) => any,
     editIdea: (idea: Idea) => any,
     cancelEditing: (idea: Idea) => any,
-    updateIdea: (idea: Idea, title: string, description: string) => any,
+    updateIdea: (idea: Idea, title: string, description: string, tags: string) => any,
     addComment: (content: string) => any,
     idea: Idea,
     auth: User,
     comments: ?Array<Comment>,
     editingIdea: boolean
   },
-  { title: string, description: string }
+  { title: string, description: string, tags: string }
 > {
   constructor(props) {
     super(props);
     this.state = {
       title: props.idea.title,
-      description: props.idea.description
+      description: props.idea.description,
+      tags: props.idea.tags.map(x => x.name).join(";")
     };
   }
 
@@ -113,7 +114,8 @@ class IdeaDetails extends React.Component<
                           props.updateIdea(
                             props.idea,
                             this.state.title,
-                            this.state.description
+                            this.state.description,
+                            this.state.tags
                           )
                         }
                       />
@@ -162,6 +164,14 @@ class IdeaDetails extends React.Component<
                         value={this.state.title}
                         onChange={this.handleChange.bind(this)}
                       />
+						<input
+							className="ideas--creator--tags"
+							type="text"
+							name="tags"
+							placeholder="write;tags;here"
+							value={this.state.tags}
+							onChange={this.handleChange.bind(this)}
+						/>
                     </div>
                   ) : (
                     props.idea.title
@@ -186,6 +196,11 @@ class IdeaDetails extends React.Component<
                   />
                 </div>
               )}
+              <span className="ideas--entry--tags md">
+              Tags: {props.idea.tags.map(tag => (
+					<span key={tag.uuid} className="ideas--entry--tag">{tag.name}</span>
+				))}
+              </span>
               <span className="ideas--entry--description md">
                 <ReactMarkdown
                   source={
@@ -358,10 +373,10 @@ const mapDispatchToProps: any = dispatch => {
     cancelEditing: (idea: Idea) => {
       dispatch(push(`/ideas/${idea.uuid}`));
     },
-    updateIdea: (idea: Idea, title: string, description: string) => {
+    updateIdea: (idea: Idea, title: string, description: string, tags: string) => {
       dispatch({
         type: "UPDATE_IDEA",
-        data: { uuid: idea.uuid, title, description }
+        data: { uuid: idea.uuid, title, description, tags }
       });
     },
     addComment: (content: string, idea: Idea) => {

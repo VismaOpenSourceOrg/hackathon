@@ -25,7 +25,7 @@ const IdeaComponent = (props: {
   auth: User,
   ideas?: Array<Idea>,
   activeHackathon: ?Hackathon,
-  createIdea: (string, string) => any,
+  createIdea: (string, string, string) => any,
   toggleLike: (idea: Idea) => any,
   showDetails: (idea: Idea) => any,
   deleteIdea: (idea: Idea) => any,
@@ -71,14 +71,15 @@ const IdeaComponent = (props: {
 );
 
 class IdeaCreator extends React.Component<
-  { createIdea: (string, string) => any },
-  { title: string, description: string }
+  { createIdea: (string, string, string) => any },
+  { title: string, description: string, tags: string }
 > {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      description: ""
+      description: "",
+      tags: ""
     };
   }
 
@@ -92,12 +93,14 @@ class IdeaCreator extends React.Component<
   createIdea() {
     const title = this.state.title.trim();
     const description = this.state.description.trim();
-    if (!title || !description) return;
+    const tags = this.state.tags.trim();
+    if (!title || !description || !tags) return;
 
-    this.props.createIdea(title, description);
+    this.props.createIdea(title, description, tags);
     this.setState({
       title: "",
-      description: ""
+      description: "",
+      tags: ""
     });
   }
 
@@ -112,6 +115,14 @@ class IdeaCreator extends React.Component<
           value={this.state.title}
           onChange={this.handleChange.bind(this)}
         />
+		  <input
+			  className="ideas--creator--tags"
+			  type="text"
+			  name="tags"
+			  placeholder="write;tags;here"
+			  value={this.state.tags}
+			  onChange={this.handleChange.bind(this)}
+		  />
         <textarea
           className="ideas--creator--description"
           name="description"
@@ -197,11 +208,10 @@ const IdeaEntry = (props: {
           {moment(props.idea.created).fromNow()}
         </span>
       </div>
-		<span className="ideas--entry--description md">
-             {props.idea.tags.map(tag => (
-                 <span>{tag.name}</span>
+		<span className="ideas--entry--tags md">
+             Tags: {props.idea.tags.map(tag => (
+                 <span key={tag.uuid} className="ideas--entry--tag">{tag.name}</span>
              ))}
-        <ReactMarkdown source={props.idea.tags} />
       </span>
       <span className="ideas--entry--description md">
         <ReactMarkdown source={props.idea.description} />
@@ -252,8 +262,8 @@ const mapStateToProps: any = state => {
 
 const mapDispatchToProps: any = dispatch => {
   return {
-    createIdea: (title: string, description: string) => {
-      dispatch({ type: "CREATE_IDEA", data: { title, description } });
+    createIdea: (title: string, description: string, tags: string) => {
+      dispatch({ type: "CREATE_IDEA", data: { title, description, tags } });
     },
     toggleLike: (idea: Idea) => {
       dispatch({ type: "TOGGLE_LIKE_IDEA", data: { idea: idea } });

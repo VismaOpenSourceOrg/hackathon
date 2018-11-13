@@ -18,7 +18,7 @@ function* fetchIdeas(): * {
 
 function* createIdea(action: {
   type: string,
-  data: { title: string, description: string }
+  data: { title: string, description: string, tags: string }
 }): * {
   const response = yield call(fetch, "/api/idea", {
     method: "post",
@@ -28,7 +28,8 @@ function* createIdea(action: {
     credentials: "same-origin",
     body: JSON.stringify({
       title: action.data.title,
-      description: action.data.description
+      description: action.data.description,
+      tags: action.data.tags
     })
   });
   const data = yield call([response, response.json]);

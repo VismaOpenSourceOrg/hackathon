@@ -21,6 +21,7 @@ public class IdeaTag {
 	@Column(columnDefinition = "TEXT")
 	private String name;
 
+
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {
 					CascadeType.PERSIST,
@@ -58,7 +59,6 @@ public class IdeaTag {
 		final StringBuilder sb = new StringBuilder("IdeaTag{");
 		sb.append("uuid=").append(uuid);
 		sb.append(", name='").append(name).append('\'');
-		sb.append(", ideas=").append(ideas);
 		sb.append('}');
 		return sb.toString();
 	}
@@ -67,4 +67,10 @@ public class IdeaTag {
 	public Set<Idea> getIdeas() {
 		return ideas;
 	}
+
+	public void setIdeas(Set<Idea> ideas) {
+		this.ideas = ideas;
+	}
+
+
 }

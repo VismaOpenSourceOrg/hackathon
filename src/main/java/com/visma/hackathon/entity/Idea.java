@@ -8,11 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 public class Idea {
@@ -184,4 +182,5 @@ public class Idea {
 	public void setTags(Set<IdeaTag> tags) {
 		this.tags = tags;
 	}
+
 }

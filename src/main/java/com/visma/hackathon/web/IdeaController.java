@@ -81,6 +81,7 @@ public class IdeaController {
 		checkWriteAuthorization(idea);
 		idea.setTitle(creationDTO.getTitle());
 		idea.setDescription(creationDTO.description);
+		idea.setTags(ideaService.convertTags(creationDTO.getTags()));
 		idea.setUpdated(ZonedDateTime.now());
 		ideaRepository.save(idea);
 		log.info("Updated idea: " + idea.toFullString());

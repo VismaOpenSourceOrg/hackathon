@@ -30,7 +30,7 @@ function* fetchComments(action: { uuid: string }): * {
 }
 
 function* updateIdea(action: {
-  data: { uuid: string, title: string, description: string }
+  data: { uuid: string, title: string, description: string, tags: string }
 }) {
   const response = yield call(fetch, `/api/idea/${action.data.uuid}`, {
     method: "put",
@@ -40,7 +40,8 @@ function* updateIdea(action: {
     credentials: "same-origin",
     body: JSON.stringify({
       title: action.data.title,
-      description: action.data.description
+      description: action.data.description,
+      tags: action.data.tags
     })
   });
   const data = yield call([response, response.json]);

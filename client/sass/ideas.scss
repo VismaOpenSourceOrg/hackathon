@@ -15,6 +15,20 @@
   flex-direction: column;
   width: 100%;
 }
+
+.ideas--entry--tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-style: italic;
+  width: 100%;
+}
+
+.ideas--entry--tag {
+  display: inline-block;
+  margin: 4px;
+}
+
 .ideas--entry--header {
   display: flex;
   align-content: center;
@@ -73,6 +87,7 @@
 
 
 .ideas--creator--title,
+.ideas--creator--tags,
 .ideas--creator--description {
   width: 100%;
   margin-bottom: 10px;

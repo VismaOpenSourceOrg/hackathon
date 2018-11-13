@@ -31,6 +31,11 @@ public class IdeaService {
 		Idea idea = new Idea(title, description);
 		idea.setCreatedBy(user);
 		idea.setCreated(ZonedDateTime.now());
+		idea.setTags(convertTags(tags));
+		return ideaRepository.save(idea);
+	}
+
+	public Set<IdeaTag> convertTags(String tags) {
 		Set<IdeaTag> tagsList = new HashSet<>(Arrays.stream(tags.split(";"))
 				.map(x -> {
 					x = x.toLowerCase().trim();
@@ -40,9 +45,10 @@ public class IdeaService {
 					}
 					return new IdeaTag(x);
 				}).collect(toList()));
-		idea.setTags(tagsList);
-		return ideaRepository.save(idea);
+
+		return tagsList;
 	}
+
 
 	public IdeaComment createComment(Idea idea, String text, User user) {
 		IdeaComment comment = new IdeaComment();
