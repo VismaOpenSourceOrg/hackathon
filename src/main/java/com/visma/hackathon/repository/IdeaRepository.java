@@ -1,6 +1,7 @@
 package com.visma.hackathon.repository;
 
 import com.visma.hackathon.entity.Idea;
+import com.visma.hackathon.entity.IdeaTag;
 import com.visma.hackathon.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,7 @@ public interface IdeaRepository extends CrudRepository<Idea, UUID> {
 	List<Idea> findAllByOrderByCreatedDesc();
 
 	List<Idea> findAllByCreatedByOrderByCreatedDesc(User user);
+
+	List<Idea> findAllByTagsOrderByCreatedDesc(IdeaTag tag);
 
 }

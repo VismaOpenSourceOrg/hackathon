@@ -1,10 +1,12 @@
 package com.visma.hackathon.service;
 
+import com.visma.hackathon.entity.IdeaTag;
 import com.visma.hackathon.repository.IdeaRepository;
 import com.visma.hackathon.entity.Idea;
 import com.visma.hackathon.entity.IdeaComment;
 import com.visma.hackathon.entity.User;
 import com.visma.hackathon.repository.IdeaCommentRepository;
+import com.visma.hackathon.repository.IdeaTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class IdeaService {
 
 	@Autowired
 	private IdeaCommentRepository ideaCommentRepository;
+
+	@Autowired
+	private IdeaTagRepository ideaTagRepository;
 
 	public Idea createIdea(String title, String description, User user) {
 		Idea idea = new Idea(title, description);
@@ -33,5 +38,12 @@ public class IdeaService {
 		comment.setCreated(ZonedDateTime.now());
 		comment.setCreatedBy(user);
 		return ideaCommentRepository.save(comment);
+	}
+
+	public IdeaTag createTag(Idea idea, String name) {
+		IdeaTag tag = new IdeaTag();
+		tag.getIdeas().add(idea);
+		tag.setName(name);
+		return ideaTagRepository.save(tag);
 	}
 }

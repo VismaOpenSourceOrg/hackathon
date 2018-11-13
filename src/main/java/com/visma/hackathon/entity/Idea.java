@@ -4,18 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
@@ -62,6 +51,16 @@ public class Idea {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "idea")
 	@OrderBy("created")
 	private List<IdeaComment> comments = new ArrayList<>();
+
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			})
+	@JoinTable(name = "idea_tags",
+			joinColumns = { @JoinColumn(name = "idea_uuid") },
+			inverseJoinColumns = { @JoinColumn(name = "ideatag_uuid") })
+	private Set<IdeaTag> tags = new HashSet<>();
 
 
 	@Transient
@@ -159,6 +158,7 @@ public class Idea {
 		sb.append(", createdBy=").append(createdBy.getEmail());
 		sb.append(", created=").append(created);
 		sb.append(", updated=").append(updated);
+		sb.append(", tags=").append(tags);
 		sb.append('}');
 		return sb.toString();
 	}
@@ -172,8 +172,16 @@ public class Idea {
 		sb.append(", createdBy=").append(createdBy.getEmail());
 		sb.append(", created=").append(created);
 		sb.append(", updated=").append(updated);
+		sb.append(", tags=").append(tags);
 		sb.append('}');
 		return sb.toString();
 	}
 
+	public Set<IdeaTag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<IdeaTag> tags) {
+		this.tags = tags;
+	}
 }
