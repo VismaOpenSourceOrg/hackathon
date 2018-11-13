@@ -21,9 +21,4 @@ public class IndexController {
 		return "/logged-out.html";
 	}
 
-	@RequestMapping({ "/login-error", "/error" })
-	public String loginErrorPage() {
-		return "/login-error.html";
-	}
-
 }
