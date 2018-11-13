@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -25,12 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login-error")
 				.userInfoEndpoint().oidcUserService(customOidcUserService())
 				.and()
-				.defaultSuccessUrl("/oauth-login-success", true)
+				.successHandler(simpleUrlAuthenticationSuccessHandler())
 				.and()
 				.logout().logoutSuccessUrl("/logged-out")
 				.and()
 				.headers()
 				.contentSecurityPolicy(getCsp());
+	}
+
+	@Bean
+	public AuthenticationSuccessHandler simpleUrlAuthenticationSuccessHandler() {
+		return new SimpleUrlAuthenticationSuccessHandler("/oauth-login-success");
 	}
 
 	private String getCsp() {
