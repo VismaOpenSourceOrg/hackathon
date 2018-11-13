@@ -197,6 +197,12 @@ const IdeaEntry = (props: {
           {moment(props.idea.created).fromNow()}
         </span>
       </div>
+		<span className="ideas--entry--description md">
+             {props.idea.tags.map(tag => (
+                 <span>{tag.name}</span>
+             ))}
+        <ReactMarkdown source={props.idea.tags} />
+      </span>
       <span className="ideas--entry--description md">
         <ReactMarkdown source={props.idea.description} />
       </span>

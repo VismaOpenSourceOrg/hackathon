@@ -15,6 +15,7 @@ export type Idea = {
   uuid: string,
   title: string,
   description: string,
+  tags: Array<IdeaTag>,
   createdBy: User,
   created: string,
   likes: Array<User>,
@@ -37,4 +38,9 @@ export type Hackathon = {
   createdBy: User,
   created: string,
   updated: string
+};
+
+export type IdeaTag = {
+	uuid: string,
+	name: string
 };

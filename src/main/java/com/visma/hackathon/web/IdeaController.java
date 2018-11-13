@@ -1,10 +1,7 @@
 package com.visma.hackathon.web;
 
-import com.visma.hackathon.entity.HackerRole;
+import com.visma.hackathon.entity.*;
 import com.visma.hackathon.repository.IdeaRepository;
-import com.visma.hackathon.entity.IdeaComment;
-import com.visma.hackathon.entity.User;
-import com.visma.hackathon.entity.Idea;
 import com.visma.hackathon.repository.IdeaCommentRepository;
 import com.visma.hackathon.repository.UserRepository;
 import com.visma.hackathon.service.AuthService;
@@ -73,7 +70,7 @@ public class IdeaController {
 	@PostMapping
 	public Idea create(@RequestBody CreationDTO creationDTO) {
 		User user = authService.getLoggedInUser();
-		Idea idea = ideaService.createIdea(creationDTO.getTitle(), creationDTO.getDescription(), user);
+		Idea idea = ideaService.createIdea(creationDTO.getTitle(), creationDTO.getDescription(), creationDTO.getTags(), user);
 		log.info("Created idea: " + idea.toFullString());
 		return idea;
 	}
@@ -111,6 +108,15 @@ public class IdeaController {
 		log.info("Created comment: " + comment);
 		return comment;
 	}
+
+	@PostMapping("/{uuid}/tags")
+	public IdeaTag createTag(@PathVariable UUID uuid, @RequestBody TagDTO body) {
+		Idea idea = ideaRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Idea"));
+		IdeaTag tag = ideaService.createTag(idea, body.getName());
+		log.info("Created tag: " + tag);
+		return tag;
+	}
+
 
 
 	private void checkWriteAuthorization(Idea idea) {
@@ -150,6 +156,7 @@ public class IdeaController {
 	static class CreationDTO {
 		private String title;
 		private String description;
+		private String tags;
 
 		public String getTitle() {
 			return title;
@@ -166,6 +173,14 @@ public class IdeaController {
 		public void setDescription(String description) {
 			this.description = description;
 		}
+
+		public String getTags() {
+			return tags;
+		}
+
+		public void setTags(String tags) {
+			this.tags = tags;
+		}
 	}
 
 	static class CommentDTO {
@@ -179,6 +194,19 @@ public class IdeaController {
 			this.content = content;
 		}
 	}
+
+	static class TagDTO {
+		private String name;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
+
 
 
 }

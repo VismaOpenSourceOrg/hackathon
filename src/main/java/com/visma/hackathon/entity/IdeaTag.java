@@ -1,5 +1,7 @@
 package com.visma.hackathon.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -56,10 +58,12 @@ public class IdeaTag {
 		final StringBuilder sb = new StringBuilder("IdeaTag{");
 		sb.append("uuid=").append(uuid);
 		sb.append(", name='").append(name).append('\'');
+		sb.append(", ideas=").append(ideas);
 		sb.append('}');
 		return sb.toString();
 	}
 
+	@JsonIgnore
 	public Set<Idea> getIdeas() {
 		return ideas;
 	}
