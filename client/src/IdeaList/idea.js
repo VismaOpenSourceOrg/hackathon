@@ -188,6 +188,7 @@ const IdeaEntry = (props: {
           >
             {props.idea.title}
           </a>
+          <Badge status={props.idea.status}/>
         </span>
 
         <span
@@ -235,6 +236,29 @@ const IdeaEntry = (props: {
     </div>
   </div>
 );
+
+const Badge = (props: {status: IdeaStatus}) => {
+  switch (props.status) {
+    case "REPORTED": {
+      return (<span className="badge badge--blue">
+                Reported
+      </span>);
+
+    }
+    case "IN_PROGRESS": {
+      return (<span className="badge badge--blue">
+            Reported
+          </span>);
+
+    }
+    case "DONE": {
+      return (<span className="badge badge--blue">
+            Reported
+          </span>);
+    }
+    default: return null;
+  }
+};
 
 const mapStateToProps: any = state => {
   return {

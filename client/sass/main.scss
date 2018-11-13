@@ -155,3 +155,30 @@ b {
 .th--button--small {
     padding: 5px 10px;
 }
+
+.badge {
+    margin-left: 8px;
+    color: white;
+    font-family: 'trebuche ms';
+    font-size: 13px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 5px;
+    min-width: 30px;
+    height: 24px;
+    border-radius: 30px;
+}
+
+.badge--green{
+    background-color: $badgeGreen;
+}
+
+.badge--yellow{
+    background-color: $badgeYellow;
+}
+
+.badge--blue{
+    background-color: $badgeBlue;
+}

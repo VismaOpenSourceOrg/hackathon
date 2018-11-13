@@ -11,6 +11,8 @@ export type User = {
   roles: Array<string>
 };
 
+export type IdeaStatus = "REPORTED"|"IN_PROGRESS"|"DONE";
+
 export type Idea = {
   uuid: string,
   title: string,
@@ -18,7 +20,8 @@ export type Idea = {
   createdBy: User,
   created: string,
   likes: Array<User>,
-  numberOfComments?: number
+  numberOfComments?: number,
+  status: IdeaStatus
 };
 
 export type Comment = {

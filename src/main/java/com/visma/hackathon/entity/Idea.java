@@ -51,6 +51,8 @@ public class Idea {
 
 	private ZonedDateTime updated;
 
+	private IdeaStatus status = IdeaStatus.REPORTED;
+	
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = {
 					CascadeType.PERSIST,
@@ -124,6 +126,14 @@ public class Idea {
 		this.updated = updated;
 	}
 
+	public IdeaStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(IdeaStatus status){
+		this.status = status;
+	}
+	
 	public Set<User> getLikes() {
 		return likes;
 	}
@@ -174,6 +184,10 @@ public class Idea {
 		sb.append(", updated=").append(updated);
 		sb.append('}');
 		return sb.toString();
+	}
+	
+	public enum IdeaStatus {
+		REPORTED, IN_PROGRESS, DONE 
 	}
 
 }
