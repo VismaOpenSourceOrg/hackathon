@@ -23,7 +23,7 @@
     "flow-bin": "^0.80.0",
     "history": "^4.7.2",
     "html-webpack-plugin": "^3.2.0",
-    "lodash": ">=4.17.13",
+    "lodash": ">=4.17.19",
     "lodash-es": ">=4.17.14",
     "moment": "^2.22.2",
     "moment-locales-webpack-plugin": "^1.0.7",
